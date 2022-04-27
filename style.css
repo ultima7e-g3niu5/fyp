@@ -1,0 +1,173 @@
+/*Importing fonts used throughout*/
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+/* Styles applied to whole webpage */
+* {
+  list-style: none;
+  text-decoration: none;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Open Sans', sans-serif;
+}
+
+body {
+  background: white;
+}
+
+/* Style for side menu */
+
+body nav {
+  background: rgb(2, 60, 94);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 225px;
+  height: 100%;
+  padding: 20px 0;
+  transition: all 0.5s ease;
+}
+
+body nav section {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+body nav section img {
+  display: block;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin: 0 auto;
+}
+
+body nav section h3 {
+  color: white;
+  margin: 10px 0 5px;
+}
+
+body nav section h4 {
+  color: rgb(206, 240, 253);
+  font-size: 14px;
+}
+
+body nav ul li a {
+  display: block;
+  padding: 13px 30px;
+  margin: 0.5vw;
+  color: rgb(241, 237, 237);
+  font-size: 16px;
+  position: relative;
+}
+
+body nav ul li a .icon {
+  color: white;
+  width: 30px;
+  display: inline-block;
+}
+
+
+body nav ul li a:hover,
+body nav ul li a.active {
+  color: #0c7db1;
+
+  background: white;
+  border-radius: 0.5vw;
+}
+
+body nav ul li a:hover .icon,
+body nav ul li a.active .icon {
+  color: #0c7db1;
+}
+
+body nav ul li a:hover:before,
+body nav ul li a.active:before {
+  display: block;
+}
+
+/*Style for main body*/
+
+body main {
+  width: calc(100% - 225px);
+  margin-left: 225px;
+  transition: all 0.5s ease;
+}
+
+body main .top_navbar {
+  background: rgb(2, 60, 94);
+  height: 50px;
+  display: flex;
+  align-items: center;
+  padding: 0 30px;
+}
+
+/*Rotate styling for hamburger button upon click */
+
+body main .top_navbar a {
+  font-size: 28px;
+  color: #f4fbff;
+  transition: transform 0.5s;
+  transform: rotate(90deg);
+}
+
+body main .top_navbar a:hover {
+  color: #a2ecff;
+  transform: rotate(0deg);
+}
+
+body.active main .top_navbar a {
+  transform: rotate(0deg);
+}
+
+body.active main .top_navbar a:hover {
+  color: #a2ecff;
+  transform: rotate(90deg);
+}
+
+/*Styling for the map */
+.map-container {
+  background: whitesmoke;
+}
+
+body main section {
+  margin: 5vh 2.5vw 5vh 2.5vw;
+  background: whitesmoke;
+  padding: 3vh 2.5vw 3vh 2.5vw;
+  line-height: 28px;
+  border-radius: 1vw;
+}
+
+body.active nav {
+  left: -225px;
+}
+
+body.active main {
+  margin-left: 0;
+  width: 100%;
+}
+
+/* Styling for all h1 headings */
+h1 {
+  color: purple;
+}
+
+/* Styling the flexbox containing the Interactive Map iframe */
+
+.flex-container {
+  margin: 1.5rem 0 1rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+body.active .flex-item {
+  width: 80vw;
+  height: 50vh;
+}
+
+body .flex-item {
+  transition: all 0.5s ease;
+  width: calc(80vw - 225px);
+  height: 50vh;
+}
