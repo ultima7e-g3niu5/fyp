@@ -1,9 +1,7 @@
 import {
     dijkstra
-} from "./static.mjs";
+} from "./dijkstra.mjs";
 
-const csvForm = getEl("csvForm");
-const csvFile = getEl("csvFile");
 let defaultRoadProperties;
 let defaultJunctionProperties;
 let defaultRoadRelativeWeighting;
@@ -12,29 +10,13 @@ let customRoadProperties;
 let customJunctionProperties;
 let customRoadRelativeWeighting;
 let customJunctionRelativeWeighting;
-let defaultRoad;
-let defaultJunction;
+let defaultRoadPropertiesBool;
+let defaultJunctionPropertiesBool;
+let defaultRoadRelativeWeightingBool;
+let defaultJunctionRelativeWeightingBool;
 let roadOrJunction;
-
-
-
-
-csvForm.addEventListener("submit", function (e) {
-    e.preventDefault();
-    const input = decisionMapCSVFile.files[0];
-    const csvReader = new FileReader();
-
-    csvReader.onload = function (e) {
-        const text = e.target.result;
-        const decisionMapArray = convertCSVToArray(text);
-
-        if (localStorage.getItem("csvFile") == null) {
-            localStorage.setItem("decisionMap", decisionMapArray);
-            console.log(localStorage.getItem("decisionMap"));
-        }
-    };
-    csvReader.readAsText(input);
-});
+let ls;
+let forDijkstra = [];
 
 function getEl(id) {
     return document.getElementById(id);
@@ -42,33 +24,78 @@ function getEl(id) {
 
 function showMe(elem) {
     const elements = document.getElementsByClassName('switchable');
+    if (elem == 'resultScreen') {
+        displayResultScreenValues();
+    };
 
     for (const element of elements) {
         element.style.display = 'none';
     }
     getEl(elem).style.display = 'block';
 };
-// const q = JSON.parse(localStorage.defaultRoadProperties);
+
+function resultsBtnEventHandler(id) {
+    if (id.addEventListener) {
+        // DOM2 - Modern browsers
+        id.addEventListener('click', function () {
+            showMe('resultScreen');
+        });
+    } else if (id.attachEvent) {
+        // IE (IE9 supports the above)
+        id.attachEvent('onclick', showMe('resultScreen'));
+    } else {
+        // DOM0 - Very old or non standard browser
+        id.onclick = showMe('resultScreen');
+    };
+};
+
+function displayResultScreenValues() {
+    defaultOrCustom();
+    if (defaultRoadPropertiesBool) {
+        forDijkstra[0] = JSON.parse(ls.defaultRoadProperties);
+    } else {
+        forDijkstra[0] = JSON.parse(ls.customRoadProperties);
+    };
+
+    if (defaultRoadRelativeWeightingBool) {
+        forDijkstra[1] = JSON.parse(ls.defaultRoadRelativeWeighting);
+    } else {
+        forDijkstra[1] = JSON.parse(ls.customRoadRelativeWeighting);
+    };
+
+    if (defaultJunctionPropertiesBool) {
+        forDijkstra[2] = JSON.parse(ls.defaultJunctionProperties);
+    } else {
+        forDijkstra[2] = JSON.parse(ls.customJunctionProperties);
+    };
+
+    if (defaultJunctionRelativeWeightingBool) {
+        forDijkstra[3] = JSON.parse(ls.defaultJunctionRelativeWeighting);
+    } else {
+        forDijkstra[3] = JSON.parse(ls.customJunctionRelativeWeighting);
+    };
+    
+    console.log(forDijkstra);
+
+    const resultScreenWeightingLabel = getEl('resultScreenWeightingLabel');
+    const text = "The total weighting for your journey is: ";
+    resultScreenWeightingLabel.textContent = text.concat(Math.floor(dijkstra().distance));
+
+    const resultScreenNodesLabel = getEl('resultScreenNodesLabel');
+    const text2 = "The nodes you will travel through are: ";
+    resultScreenNodesLabel.textContent = text2.concat(dijkstra().path);
+};
 
 pageInit();
 
 function pageInit() {
     // Display initial elements on page load
 
-    const ls = localStorage;
-
     showMe('startScreen');
 
     defaultOrCustom();
 
-    if (ls.defaultRoadProperties == null &&
-        ls.defaultJunctionProperties == null &&
-        ls.defaultRoadRelativeWeighting == null &&
-        ls.defaultJunctionRelativeWeighting == null &&
-        ls.customRoadProperties == null &&
-        ls.customJunctionProperties == null &&
-        ls.customRoadRelativeWeighting == null &&
-        ls.customJunctionRelativeWeighting == null) {
+    if (defaultRoadPropertiesBool && ls.defaultRoadProperties == null) {
         populateDefaultRoadProperties();
         localStorage.defaultRoadProperties = JSON.stringify(defaultRoadProperties);
         localStorage.defaultRoadRelativeWeighting = JSON.stringify(defaultRoadRelativeWeighting);
@@ -76,269 +103,257 @@ function pageInit() {
         localStorage.defaultJunctionProperties = JSON.stringify(defaultJunctionProperties);
         localStorage.defaultJunctionRelativeWeighting = JSON.stringify(defaultJunctionRelativeWeighting);
 
-
         getEl("labelDefaultExistingCustomise").innerHTML = "Default weightings for roads and junctions have been loaded";
-        getEl("btnUseDefaultRoadJunctionValues").style.display = "inline-block";
-        getEl("btnUseExistingRoadJunctionValues").style.display = "none";
-        getEl("btnSetDefaultRoadJunctionValues").style.display = "none";
+        getEl("btnUseDefaultValues").style.display = "inline-block";
+        getEl("btnUseExistingValues").style.display = "none";
+        getEl("btnSetDefaultValues").style.display = "none";
     } else if ((ls.customRoadProperties != ls.defaultRoadProperties ||
             ls.customJunctionProperties != ls.defaultJunctionProperties ||
             ls.customRoadRelativeWeighting != defaultRoadRelativeWeighting ||
             ls.customJunctionRelativeWeighting != defaultJunctionRelativeWeighting) &&
-        (ls.customRoadProperties != null ||
-            ls.customJunctionProperties != null ||
-            ls.customRoadRelativeWeighting != null ||
-            ls.customJunctionRelativeWeighting != null)) {
-
-
+        !(defaultRoadPropertiesBool && defaultJunctionPropertiesBool &&
+            defaultRoadRelativeWeightingBool && defaultJunctionRelativeWeightingBool)) {
         getEl("labelDefaultExistingCustomise").innerHTML = "Previously customised weightings for roads and junctions have been loaded";
-        getEl("btnSetDefaultRoadJunctionValues").style.display = "inline-block";
-        getEl("btnUseDefaultRoadJunctionValues").style.display = "none";
-        getEl("btnUseExistingRoadJunctionValues").style.display = "inline-block";
-
+        getEl("btnSetDefaultValues").style.display = "inline-block";
+        getEl("btnUseDefaultValues").style.display = "none";
+        getEl("btnUseExistingValues").style.display = "inline-block";
     } else {
-        getEl("labelDefaultExistingCustomise").innerHTML = "Default weightings for roads and junctions were previously loaded";
-        getEl("btnSetDefaultRoadJunctionValues").style.display = "none";
-        getEl("btnUseDefaultRoadJunctionValues").style.display = "none";
-        getEl("btnUseExistingRoadJunctionValues").style.display = "none";
+        getEl("labelDefaultExistingCustomise").innerHTML = "Default weightings for roads and junctions were previously loaded but not customised";
+        getEl("btnSetDefaultValues").style.display = "none";
+        getEl("btnUseDefaultValues").style.display = "inline-block";
+        getEl("btnUseExistingValues").style.display = "none";
     };
 
-    if (localStorage.defaultJunctionRelativeWeighting == null) {
-        console.log("hi");
-    };
-
-
-    // Execute the algorithm with the current values
-    console.log(dijkstra());
-
-
-
-
+    ls = localStorage;
 
     {
-        // Hook up the "Calculate with current values" button
-        const btnUseExistingRoadJunctionValues = getEl('btnUseExistingRoadJunctionValues');
-        if (btnUseExistingRoadJunctionValues.addEventListener) {
-            // DOM2 standard
-            btnUseExistingRoadJunctionValues.addEventListener('click', function () {
-                showMe('resultScreen')
-            });
-        } else if (btnUseExistingRoadJunctionValues.attachEvent) {
-            // IE (IE9 finally supports the above, though)
-            btnUseExistingRoadJunctionValues.attachEvent('onclick', showMe('resultScreen'));
-        } else {
-            // Really old or non-standard browser, try DOM0
-            btnUseExistingRoadJunctionValues.onclick = showMe('resultScreen');
-        };
+        // // Hook up the "Calculate with current values" button
+        // const btnUseExistingValues = getEl('btnUseExistingValues');
+        // if (btnUseExistingValues.addEventListener) {
+        //     // DOM2 - Modern browsers
+        //     btnUseExistingValues.addEventListener('click', function () {
+        //         showMe('resultScreen');
+        //     });
+        // } else if (btnUseExistingValues.attachEvent) {
+        //     // IE (IE9 supports the above)
+        //     btnUseExistingValues.attachEvent('onclick', showMe('resultScreen'));
+        // } else {
+        //     // DOM0 - Very old or non standard browser
+        //     btnUseExistingValues.onclick = showMe('resultScreen');
+        // };
 
+
+        resultsBtnEventHandler(getEl('btnUseExistingValues'));
+        resultsBtnEventHandler(getEl('btnUseDefaultValues'));
+        resultsBtnEventHandler(getEl('btnShowResults'));
 
         // Hook up the "Customise values" button
-        const btnCustomiseRoadJunctionValues = getEl('btnCustomiseRoadJunctionValues');
-        if (btnCustomiseRoadJunctionValues.addEventListener) {
-            // DOM2 standard
-            btnCustomiseRoadJunctionValues.addEventListener('click', function () {
+        const btnCustomiseValues = getEl('btnCustomiseValues');
+        if (btnCustomiseValues.addEventListener) {
+            // DOM2 - Modern browsers
+            btnCustomiseValues.addEventListener('click', function () {
                 showMe('customPage1')
             });
-        } else if (btnCustomiseRoadJunctionValues.attachEvent) {
-            // IE (IE9 finally supports the above, though)
-            btnCustomiseRoadJunctionValues.attachEvent('onclick', showMe('customPage1'));
+        } else if (btnCustomiseValues.attachEvent) {
+            // IE (IE9 supports the above)
+            btnCustomiseValues.attachEvent('onclick', showMe('customPage1'));
         } else {
-            // Really old or non-standard browser, try DOM0
-            btnCustomiseRoadJunctionValues.onclick = showMe('customPage1');
+            // DOM0 - Very old or non standard browser
+            btnCustomiseValues.onclick = showMe('customPage1');
         };
 
+        // Hook up the "Customise values" button
+        const btnSetDefaultValues = getEl('btnCustomiseValues');
+        if (btnSetDefaultValues.addEventListener) {
+            // DOM2 - Modern browsers
+            btnSetDefaultValues.addEventListener('click', function () {
+                setDefaultValues();
+            });
+        } else if (btnSetDefaultValues.attachEvent) {
+            // IE (IE9 supports the above)
+            btnSetDefaultValues.attachEvent('onclick', setDefaultValues());
+        } else {
+            // DOM0 - Very old or non standard browser
+            btnSetDefaultValues.onclick = setDefaultValues();
+        };
 
         // Hook up the "Scenario 1" button
         const btnShowS1 = getEl('btnShowS1');
         if (btnShowS1.addEventListener) {
-            // DOM2 standard
+            // DOM2 - Modern browsers
             btnShowS1.addEventListener('click', function () {
                 showMe('customPage1')
             });
         } else if (btnShowS1.attachEvent) {
-            // IE (IE9 finally supports the above, though)
+            // IE (IE9 supports the above)
             btnShowS1.attachEvent('onclick', showMe('customPage1'));
         } else {
-            // Really old or non-standard browser, try DOM0
+            // DOM0 - Very old or non standard browser
             btnShowS1.onclick = showMe('customPage1');
         };
-
 
         // Hook up the "Scenario 2" button
         const btnShowS2 = getEl('btnShowS2');
         if (btnShowS2.addEventListener) {
-            // DOM2 standard
+            // DOM2 - Modern browsers
             btnShowS2.addEventListener('click', function () {
                 showMe('customPage2')
             });
         } else if (btnShowS2.attachEvent) {
-            // IE (IE9 finally supports the above, though)
+            // IE (IE9 supports the above)
             btnShowS2.attachEvent('onclick', showMe('customPage2'));
         } else {
-            // Really old or non-standard browser, try DOM0
+            // DOM0 - Very old or non standard browser
             btnShowS2.onclick = showMe('customPage2');
         };
-
 
         // Hook up the "Scenario 3" button
         const btnShowS3 = getEl('btnShowS3');
         if (btnShowS3.addEventListener) {
-            // DOM2 standard
+            // DOM2 - Modern browsers
             btnShowS3.addEventListener('click', function () {
                 showMe('customPage3')
             });
         } else if (btnShowS3.attachEvent) {
-            // IE (IE9 finally supports the above, though)
+            // IE (IE9 supports the above)
             btnShowS3.attachEvent('onclick', showMe('customPage3'));
         } else {
-            // Really old or non-standard browser, try DOM0
+            // DOM0 - Very old or non standard browser
             btnShowS3.onclick = showMe('customPage3');
         };
-
 
         // Hook up the "Scenario 4" button
         const btnShowS4 = getEl('btnShowS4');
         if (btnShowS4.addEventListener) {
-            // DOM2 standard
+            // DOM2 - Modern browsers
             btnShowS4.addEventListener('click', function () {
                 showMe('customPage4')
             });
         } else if (btnShowS4.attachEvent) {
-            // IE (IE9 finally supports the above, though)
+            // IE (IE9 supports the above)
             btnShowS4.attachEvent('onclick', showMe('customPage4'));
         } else {
-            // Really old or non-standard browser, try DOM0
+            // DOM0 - Very old or non standard browser
             btnShowS4.onclick = showMe('customPage4');
         };
-
 
         // Hook up the "Scenario 5" button
         const btnShowS5 = getEl('btnShowS5');
         if (btnShowS5.addEventListener) {
-            // DOM2 standard
+            // DOM2 - Modern browsers
             btnShowS5.addEventListener('click', function () {
                 showMe('customPage5')
             });
         } else if (btnShowS5.attachEvent) {
-            // IE (IE9 finally supports the above, though)
+            // IE (IE9 supports the above)
             btnShowS5.attachEvent('onclick', showMe('customPage5'));
         } else {
-            // Really old or non-standard browser, try DOM0
+            // DOM0 - Very old or non standard browser
             btnShowS5.onclick = showMe('customPage5');
         };
 
         // Hook up the "Scenario 6" button
         const btnShowS6 = getEl('btnShowS6');
         if (btnShowS6.addEventListener) {
-            // DOM2 standard
+            // DOM2 - Modern browsers
             btnShowS6.addEventListener('click', function () {
                 showMe('customPage6')
             });
         } else if (btnShowS6.attachEvent) {
-            // IE (IE9 finally supports the above, though)
+            // IE (IE9 supports the above)
             btnShowS6.attachEvent('onclick', showMe('customPage6'));
         } else {
-            // Really old or non-standard browser, try DOM0
+            // DOM0 - Very old or non standard browser
             btnShowS6.onclick = showMe('customPage6');
         };
 
         // Hook up the "Scenario 7" button
         const btnShowS7 = getEl('btnShowS7');
         if (btnShowS7.addEventListener) {
-            // DOM2 standard
+            // DOM2 - Modern browsers
             btnShowS7.addEventListener('click', function () {
                 showMe('customPage7')
             });
         } else if (btnShowS7.attachEvent) {
-            // IE (IE9 finally supports the above, though)
+            // IE (IE9 supports the above)
             btnShowS7.attachEvent('onclick', showMe('customPage7'));
         } else {
-            // Really old or non-standard browser, try DOM0
+            // DOM0 - Very old or non standard browser
             btnShowS7.onclick = showMe('customPage7');
         };
 
         // Hook up the "Scenario 8" button
         const btnShowS8 = getEl('btnShowS8');
         if (btnShowS8.addEventListener) {
-            // DOM2 standard
+            // DOM2 - Modern browsers
             btnShowS8.addEventListener('click', function () {
                 showMe('customPage8')
             });
         } else if (btnShowS8.attachEvent) {
-            // IE (IE9 finally supports the above, though)
+            // IE (IE9 supports the above)
             btnShowS8.attachEvent('onclick', showMe('customPage8'));
         } else {
-            // Really old or non-standard browser, try DOM0
+            // DOM0 - Very old or non standard browser
             btnShowS8.onclick = showMe('customPage8');
         };
 
         // Hook up the "Scenario 9" button
         const btnShowS9 = getEl('btnShowS9');
         if (btnShowS9.addEventListener) {
-            // DOM2 standard
+            // DOM2 - Modern browsers
             btnShowS9.addEventListener('click', function () {
                 showMe('customPage9')
             });
         } else if (btnShowS9.attachEvent) {
-            // IE (IE9 finally supports the above, though)
+            // IE (IE9 supports the above)
             btnShowS9.attachEvent('onclick', showMe('customPage9'));
         } else {
-            // Really old or non-standard browser, try DOM0
+            // DOM0 - Very old or non standard browser
             btnShowS9.onclick = showMe('customPage9');
         }
 
-        // Hook up the "Calculate with current values" button
+        // Hooking up "s1Q1Slider"
+        const s1Q1SliderOnInput = getEl('s1Q1Slider');
+        if (s1Q1SliderOnInput.addEventListener) {
+            // DOM2 - Modern browsers
+            s1Q1SliderOnInput.addEventListener('input', function () {
+                getEl('s1Q1Label').innerHTML = this.value;
+                customiseWeightings(true, true, 0, 0, 0, 1, this.value);
+            });
+        };
+
+        // Hooking up "s1Q1ResetBtn"
+        const s1Q1ResetBtn = getEl('s1Q1ResetBtn');
+        if (s1Q1ResetBtn.addEventListener) {
+            // DOM2 - Modern browsers
+            s1Q1ResetBtn.addEventListener('click', function () {
+                resetSliderToDefaultValue('s1Q1Label', 's1Q1Slider', true, true, 0, 0, 0, 1);
+            });
+        } else if (s1Q1ResetBtn.attachEvent) {
+            // IE (IE9 supports the above)
+            s1Q1ResetBtn.attachEvent('onclick', resetSliderToDefaultValue('s1Q1Label', 's1Q1Slider', true, true, 0, 0, 0, 1));
+        } else {
+            // DOM0 - Very old or non standard browser
+            s1Q1ResetBtn.onclick = resetSliderToDefaultValue('s1Q1Label', 's1Q1Slider', true, true, 0, 0, 0, 1);
+        };
+
+        // Hook up the s1Q1Slider and s1Q1Label
         const s1Q1Slider = getEl('s1Q1Slider');
         const s1Q1Label = getEl('s1Q1Label');
 
-        // s1Q1Slider.value = JSON.populateDefaultRoadProperties;
-        // s1Q1Slider.textContent = 9;
-        // console.log(s1Q1Slider);
-
         defaultOrCustom();
-        console.log(defaultRoad);
-        if (defaultRoad) {
-            s1Q1Slider.value = localStorage.defaultRoadProperties[0][0][0][1];
-            s1Q1Slider.textContent = localStorage.defaultRoadProperties[0][0][0][1];
-            s1Q1Label.value = localStorage.defaultRoadProperties[0][0][0][1];
-            s1Q1Label.textContent = localStorage.defaultRoadProperties[0][0][0][1];
+
+        if (defaultRoadPropertiesBool) {
+            ls = JSON.parse(ls.defaultRoadProperties)[0][0][0][1];
         } else {
-            s1Q1Slider.value = JSON.parse(localStorage.customRoadProperties)[0][0][0][1];
-            s1Q1Slider.textContent = JSON.parse(localStorage.customRoadProperties)[0][0][0][1];
-            s1Q1Label.value = JSON.parse(localStorage.customRoadProperties)[0][0][0][1];
-            s1Q1Label.textContent = JSON.parse(localStorage.customRoadProperties)[0][0][0][1];
-            console.log("Within the else")
-            console.log(JSON.parse(localStorage.customRoadProperties)[0][0][0][1])
+            ls = JSON.parse(ls.customRoadProperties)[0][0][0][1];
         };
+
+        s1Q1Slider.value = ls;
+        s1Q1Slider.textContent = ls;
+        s1Q1Label.value = ls;
+        s1Q1Label.textContent = ls;
     };
-};
-
-
-function convertCSVToArray(str, delim = ",") {
-    // Start from the start of the string, slice at end of line marker
-    // Use the delimeter set above to split the string
-    const headers = str.slice(0, str.indexOf("\n")).split(delim);
-
-    // Start at the index \n + 1 and slice at the end of the text
-    // Create an array of each csv row, using Split
-    const rows = str.slice(str.indexOf("\n") + 1).split("\n");
-
-    // Maping the rows
-    // Split the values from each row into an array
-    // Create an object using headers.reduce
-    // Derive the object properties from headers:values
-    // Construct the array using the object as an element of the whole array
-    const array = rows.map(function (row) {
-        const values = row.split(delim);
-        const element = headers.reduce(function (object, header, index) {
-            object[header] = values[index];
-            return object;
-        }, {});
-        return element;
-    });
-
-    // return the array
-    return array;
 };
 
 function populateDefaultRoadProperties() {
@@ -520,7 +535,7 @@ function populateDefaultJunctionProperties() {
 function getValue(roadOrJunction, one, two, three, four) {
     defaultOrCustom();
     if (roadOrJunction) {
-        if (defaultRoad) {
+        if (defaultRoadPropertiesBool) {
             document.querySelector('#s1Q1Slider').innerHTML = localStorage.defaultRoadProperties[one][two][three][four];
             document.querySelector('#s1Q1Label').innerHTML = localStorage.defaultRoadProperties[one][two][three][four];
             document.querySelector('#s1Q1Slider').value = localStorage.defaultRoadProperties[one][two][three][four];
@@ -535,7 +550,7 @@ function getValue(roadOrJunction, one, two, three, four) {
         };
     } else {
         console.log("dufhsdiufhsd");
-        if (defaultRoad) {
+        if (defaultRoadPropertiesBool) {
             this.value = localStorage.defaultJunctionProperties[one][two][three][four];
         } else {
             this.value = localStorage.customJunctionProperties[one][two][three][four];
@@ -544,51 +559,90 @@ function getValue(roadOrJunction, one, two, three, four) {
 
 };
 
-function resetSliderToDefaultValue(labelID, sliderID, roadOrJunction, one, two, three, four) {
+function resetSliderToDefaultValue(labelID, sliderID, roadOrJunction, singleOrRelative, one, two, three, four) {
     var value = JSON.parse(localStorage.defaultRoadProperties)[one][two][three][four];
 
     getEl(labelID).innerHTML = value;
     getEl(sliderID).value = value;
 
-    customiseWeightings(roadOrJunction, one, two, three, four, getEl(sliderID).value);
+    customiseWeightings(roadOrJunction, singleOrRelative, one, two, three, four, getEl(sliderID).value);
 };
 
-function customiseWeightings(roadOrJunction, one, two, three, four, newValue) {
+function customiseWeightings(roadOrJunction, singleOrRelative, one, two, three, four, newValue) {
+    if (singleOrRelative) {
+        if (roadOrJunction) {
+            defaultOrCustom();
+            if (defaultRoadPropertiesBool) {
+                var customisingRoadProperties = JSON.parse(localStorage.defaultRoadProperties);
+            } else {
+                var customisingRoadProperties = JSON.parse(localStorage.customRoadProperties);
+            };
 
-    if (roadOrJunction) {
-        defaultOrCustom();
-        if (defaultRoad) {
-            var customisingRoadProperties = JSON.parse(localStorage.defaultRoadProperties);
+            customisingRoadProperties[one][two][three][four] = newValue;
+
+            localStorage.customRoadProperties = JSON.stringify(customisingRoadProperties);
+
         } else {
-            var customisingRoadProperties = JSON.parse(localStorage.customRoadProperties);
+            if (defaultJunctionPropertiesBool) {
+                var customisingJunctionProperties = JSON.parse(localStorage.defaultJunctionProperties);
+            } else {
+                var customisingJunctionProperties = JSON.parse(localStorage.customJunctionProperties);
+            };
+
+            customisingJunctionProperties[one][two][three][four] = newValue;
+
+            localStorage.customJunctionProperties = JSON.stringify(customisingJunctionProperties);
         };
-
-        customisingRoadProperties[one][two][three][four] = newValue;
-
-        localStorage.customRoadProperties = JSON.stringify(customisingRoadProperties);
-
     } else {
-        if (defaultJunction) {
-            var customisingJunctionProperties = JSON.parse(localStorage.defaultJunctionProperties);
+        if (roadOrJunction) {
+            defaultOrCustom();
+            if (defaultRoadPropertiesBool) {
+                var customisingRoadRelativeWeighting = JSON.parse(localStorage.defaultRoadRelativeWeighting);
+            } else {
+                var customisingRoadRelativeWeighting = JSON.parse(localStorage.customRoadRelativeWeighting);
+            };
+
+            customisingRoadRelativeWeighting[one] = newValue;
+
+            localStorage.customRoadRelativeWeighting = JSON.stringify(customisingRoadRelativeWeighting);
+
         } else {
-            var customisingJunctionProperties = JSON.parse(localStorage.customJunctionProperties);
+            if (defaultJunctionPropertiesBool) {
+                var customisingJunctionRelativeWeighting = JSON.parse(localStorage.defaultJunctionRelativeWeighting);
+            } else {
+                var customisingJunctionRelativeWeighting = JSON.parse(localStorage.customJunctionRelativeWeighting);
+            };
+
+            customisingJunctionRelativeWeighting[one] = newValue;
+
+            localStorage.customJunctionRelativeWeighting = JSON.stringify(customisingJunctionRelativeWeighting);
         };
-
-        customisingJunctionProperties[one][two][three][four] = newValue;
-
-        localStorage.customJunctionProperties = JSON.stringify(customisingJunctionProperties);
     };
 };
 
 function defaultOrCustom() {
-    if (localStorage.customRoadProperties == null) {
-        defaultRoad = true;
+    ls = localStorage;
+    if (ls.customRoadProperties == null) {
+        defaultRoadPropertiesBool = true;
     } else {
-        defaultRoad = false;
+        defaultRoadPropertiesBool = false;
     };
-    if (localStorage.customRoadProperties == null) {
-        defaultJunction = true;
+
+    if (ls.customRoadRelativeWeighting == null) {
+        defaultRoadRelativeWeightingBool = true;
     } else {
-        defaultJunction = false;
+        defaultRoadRelativeWeightingBool = false;
+    };
+
+    if (ls.customJunctionProperties == null) {
+        defaultJunctionPropertiesBool = true;
+    } else {
+        defaultJunctionPropertiesBool = false;
+    };
+
+    if (ls.customJunctionRelativeWeighting == null) {
+        defaultJunctionRelativeWeightingBool = true;
+    } else {
+        defaultJunctionRelativeWeightingBool = false;
     };
 };

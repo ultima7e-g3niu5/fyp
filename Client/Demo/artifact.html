@@ -8,27 +8,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Artifact</title>
 </head>
-
-
 <body>
     <main>
         <section id="startScreen" class="switchable">
             <h1>Demo</h1>
-            <h2>Populate Decision Map Values from CSV</h2>
-            <form id="csvForm">
-                <input type="file" id="decisionMapCSVFile" accept=".csv" />
-                <br />
-                <input type="submit" value="Store Decision Map" />
-            </form>
+            <h3>Sample area decision map has been loaded</h2>
 
             <label id="labelDefaultExistingCustomise" value=""></label>
             <br>
-            <input id="btnSetDefaultRoadJunctionValues" type="button"
+            <input id="btnSetDefaultValues" type="button"
                 value="Set default Road and Junction Weightings" />
-            <input id="btnUseDefaultRoadJunctionValues" type="button" value="Use default Weightings" />
-            <input id="btnUseExistingRoadJunctionValues" type="button"
-                value="Use Weightings stored saved from last session" />
-            <input id="btnCustomiseRoadJunctionValues" type="button" value="Customise Weightings" />
+            <input id="btnUseDefaultValues" type="button" value="Use default Weightings"/>
+            <input id="btnUseExistingValues" type="button" value="Use Weightings saved from last session"/>
+            <input id="btnCustomiseValues" type="button" value="Customise Weightings" />
         </section>
 
         <section id="votingInstructions" class="switchable">
@@ -68,15 +60,14 @@
             <p>
                 <label>This video demsontrates turning right from a 2 lane, 2 way 20mph road
                     onto a 2 lane, 2 way 20mph road with a bicycle lane. <br>Comparing the initial
-                    road (start of the video) to the one with bicycle lane (end of the video), how does travelling in this uninterrupted,
+                    road (start of the video) to the one with bicycle lane (end of the video), how does travelling in
+                    this uninterrupted,
                     clearly marked bicycle lane make you feel?</label>
                 <br>
                 <div class="sliderContainer">
                     <!-- onload="getValue(true, 0, 0, 0, 1);" -->
-                    <label id="s1Q1Label"  value="5"></label>
-                    <input type="range" id="s1Q1Slider" class="inputSlider" min="0" max="9" step="1"
-                        list="steplist" oninput="document.getElementById('s1Q1Label').innerHTML = this.value;
-                                 customiseWeightings(true, 0, 0, 0, 1, this.value);" />
+                    <label id="s1Q1Label" value="5"></label>
+                    <input type="range" id="s1Q1Slider" class="inputSlider" min="0" max="9" step="1" list="steplist" />
                     <svg role="presentation" width="100%" height="10">
                         <rect class="range__tick" x="0%" y="0" width="1" height="5"></rect>
                         <rect class="range__tick" x="11.1%" y="0" width="1" height="5"></rect>
@@ -102,25 +93,17 @@
                         <text class="range__point" x="100%" y="14" text-anchor="middle">9</text>
                     </svg>
                 </div>
-                <button id="btnResetDefaultS1Q1" type="button" value="Reset to default values"
-                    onclick="resetSliderToDefaultValue('s1Q1Label', 's1Q1Slider', true, 0, 0, 0, 1);">Reset to default
+                <button id="s1Q1ResetBtn" type="button" value="Reset to default values">Reset to default
                     value</button>
                 <br>
                 <label>I much prefer a road without this bike lane</label>
                 <label>I have no preference, I feel equally as safe</label>
                 <label>I much prefer this road with this bike lane</label>
             </p>
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/XHNhhkak8eM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-            <p>
-                <label>How do you feel about y?:</label>
-                <br>
-                <input type="range" id="s1Q2Slider" class="inputSlider" value="5" min="0" max="9" step="1"
-                    list="tickmarks" oninput="document.getElementById('s1Q2Label').innerHTML = this.value;" />
-                <output>5</output>
-                <label id="s1Q2Label" value="5"></label>
-                <input id="btnResetDefaultQ2" type="button" value="Reset to default values" />
-            </p>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/XHNhhkak8eM"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
             <input id="btnShowS1" type="button" value="Scenario 1" />
             <input id="btnShowS2" type="button" value="Scenario 2" />
             <input id="btnShowS3" type="button" value="Scenario 3" />
@@ -131,22 +114,16 @@
             <input id="btnShowS8" type="button" value="Scenario 8" />
             <input id="btnShowS9" type="button" value="Scenario 9" />
             <br>
-            <input id="showResults" type="button" value="Calculate route with current values" />
+            <input id="btnShowResults" type="button" value="Calculate route with current values" />
         </section>
 
         <section id="resultScreen" class="switchable">
             <h1>This is your optimal route</h1>
+            <label id="resultScreenWeightingLabel"></label>
+            <br>
+            <label id="resultScreenNodesLabel"></label>
         </section>
-
-        <script>
-
-        </script>
-
     </main>
-    <nav>
-
-    </nav>
     <script type="module" src="artifact.mjs"></script>
 </body>
-
 </html>
