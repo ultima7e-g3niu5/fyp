@@ -1,8 +1,12 @@
-export function dijkstra() {
+import {
+    generateWeightingData
+} from "./generateWeighting.mjs";
+
+export function dijkstra(finalWeightings) {
     const decisionTree = {
         start: {
-            1: JSON.parse(localStorage.defaultRoadProperties)[0][0][0][1],
-            2: calculateNodeWeighting()
+            1: calculateNodeWeighting(1),
+            2: calculateNodeWeighting(2)
         },
         1: {
             9: calculateNodeWeighting(9)
@@ -142,7 +146,7 @@ export function dijkstra() {
             59: calculateNodeWeighting(59)
         },
         42: {
-            60: calculateNodeWeighting(60)
+            60: calculateNodeWeighting('end')
         },
         43: {
             55: calculateNodeWeighting(55),
@@ -188,23 +192,80 @@ export function dijkstra() {
             56: calculateNodeWeighting(56)
         },
         56: {
-            end: calculateNodeWeighting(60)
+            end: calculateNodeWeighting('end')
         },
         57: {
-            end: calculateNodeWeighting(60)
+            end: calculateNodeWeighting('end')
         },
         58: {
             59: calculateNodeWeighting(59)
         },
         59: {
-            end: calculateNodeWeighting(60)
+            end: calculateNodeWeighting('end')
         },
         end: {}
     };
 
-    function calculateNodeWeighting(nodeID) {
+    function calculateNodeWeighting(nodeId) {
+        const dijkstraRoadProperties = finalWeightings[0];
+        const dijkstraRoadRelativeWeighting = finalWeightings[1];
+        const dijkstraJunctionProperties = finalWeightings[2];
+        const dijkstraJunctionRelativeWeighting = finalWeightings[3];
+
+        const nodeWeightingData = Object.values(generateWeightingData(nodeId));
+        const nodeRoadProperty = nodeWeightingData[0].match(/.{1,2}/g);
+        const nodeJunctionProperty = nodeWeightingData[1].match(/.{1,2}/g);
+        const nodeDistance = nodeWeightingData[2];
+
+        let totalRoadWeighting = 0;
+        let totalJunctionWeighting = 0;
+        let totalNodeWeighting = 0;
+        let junctionFactor = 135;
+
+        function getIndexOfX(arr, x) {
+            for (var i = 0; i < arr.length; i++) {
+                var index = arr[i].indexOf(x);
+                if (index > -1) {
+                    return i;
+                };
+            };
+        };
+
+        for (var i = 0; i < (nodeRoadProperty.length); i++) {
+            // console.log(nodeRoadProperty[i]);
+
+            const arr = dijkstraRoadProperties[i][0];
+            // console.log(arr);
+
+            const arrayToSearch = getIndexOfX(arr, nodeRoadProperty[i]);
+
+            // console.log(arr[arrayToSearch][1]);
+            totalRoadWeighting = totalRoadWeighting + (dijkstraRoadRelativeWeighting[i] * arr[arrayToSearch][1]);
+            // console.log(totalRoadWeighting);
+        };
+        if (nodeWeightingData[1] != "XXXXXXXXXXXXXXXXXXXX") {
+            for (var j = 0; j < (nodeJunctionProperty.length); j++) {
+                // console.log(nodeJunctionProperty[j]);
+
+                const arr = dijkstraJunctionProperties[j][0];
+                // console.log(arr);
+
+                const arrayToSearch = getIndexOfX(arr, nodeJunctionProperty[j]);
+
+                // console.log(arr[arrayToSearch][1]);
+                totalJunctionWeighting = totalJunctionWeighting + (dijkstraJunctionRelativeWeighting[j] * arr[arrayToSearch][1]);
+                // console.log(totalJunctionWeighting);
+            };
+        };
+
+
+
+        totalNodeWeighting = (totalRoadWeighting * nodeDistance) + (totalJunctionWeighting * junctionFactor);
+
+
+
         const nodeWeighting = Math.random() * 100;
-        return nodeWeighting;
+        return totalNodeWeighting;
     };
 
     const lowestNode = (weightings, completedNodes) => {
@@ -273,5 +334,50 @@ export function dijkstra() {
         return results;
     };
 
+    // function readCsv() {
+    //     let text;
+    //     const logFileText = async file => {
+    //         const response = await fetch(file);
+    //         text = await response.text();
+
+    //         // outputs the content of the text file
+    //         const decisionMapArray = convertCSVToArray(text);
+
+    //         if (localStorage.getItem("csvFile") == null) {
+    //             localStorage.setItem("decisionMap", decisionMapArray);
+    //             console.log(localStorage.getItem("decisionMap"));
+    //         };
+    //     };
+    //     logFileText('./decision-data.csv');
+    // };
+
+
+
+    // function convertCSVToArray(str, delim = ",") {
+    //     // Start from the start of the string, slice at end of line marker
+    //     // Use the delimeter set above to split the string
+    //     const headers = str.slice(0, str.indexOf("\n")).split(delim);
+
+    //     // Start at the index \n + 1 and slice at the end of the text
+    //     // Create an array of each csv row, using Split
+    //     const rows = str.slice(str.indexOf("\n") + 1).split("\n");
+
+    //     // Maping the rows
+    //     // Split the values from each row into an array
+    //     // Create an object using headers.reduce
+    //     // Derive the object properties from headers:values
+    //     // Construct the array using the object as an element of the whole array
+    //     const array = rows.map(function (row) {
+    //         const values = row.split(delim);
+    //         const element = headers.reduce(function (object, header, index) {
+    //             object[header] = values[index];
+    //             return object;
+    //         }, {});
+    //         return element;
+    //     });
+
+    //     // return the array
+    //     return array;
+    // };
     return computeShortestPath(decisionTree);
 };

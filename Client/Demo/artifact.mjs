@@ -34,21 +34,6 @@ function showMe(elem) {
     getEl(elem).style.display = 'block';
 };
 
-function resultsBtnEventHandler(id) {
-    if (id.addEventListener) {
-        // DOM2 - Modern browsers
-        id.addEventListener('click', function () {
-            showMe('resultScreen');
-        });
-    } else if (id.attachEvent) {
-        // IE (IE9 supports the above)
-        id.attachEvent('onclick', showMe('resultScreen'));
-    } else {
-        // DOM0 - Very old or non standard browser
-        id.onclick = showMe('resultScreen');
-    };
-};
-
 function displayResultScreenValues() {
     defaultOrCustom();
     if (defaultRoadPropertiesBool) {
@@ -74,16 +59,47 @@ function displayResultScreenValues() {
     } else {
         forDijkstra[3] = JSON.parse(ls.customJunctionRelativeWeighting);
     };
-    
-    console.log(forDijkstra);
+
+    const dijkstraReturn = dijkstra(forDijkstra);
 
     const resultScreenWeightingLabel = getEl('resultScreenWeightingLabel');
     const text = "The total weighting for your journey is: ";
-    resultScreenWeightingLabel.textContent = text.concat(Math.floor(dijkstra().distance));
+    resultScreenWeightingLabel.textContent = text.concat(Math.floor(dijkstraReturn.distance));
 
     const resultScreenNodesLabel = getEl('resultScreenNodesLabel');
     const text2 = "The nodes you will travel through are: ";
-    resultScreenNodesLabel.textContent = text2.concat(dijkstra().path);
+    resultScreenNodesLabel.textContent = text2.concat(dijkstraReturn.path);
+};
+
+function setDefaultValues() {
+    defaultOrCustom();
+    if (!defaultRoadPropertiesBool) {
+        localStorage.removeItem('customRoadProperties');
+    }
+    else if (!defaultRoadRelativeWeightingBool) {
+        localStorage.removeItem('customRoadRelativeWeighting');
+    }
+    else if (!defaultJunctionPropertiesBool) {
+        localStorage.removeItem('customJunctionProperties');
+    }
+    else if (!defaultJunctionRelativeWeightingBool) {
+        localStorage.removeItem('customJunctionRelativeWeighting');
+    };
+};
+
+function resultsBtnEventHandler(id) {
+    if (id.addEventListener) {
+        // DOM2 - Modern browsers
+        id.addEventListener('click', function () {
+            showMe('resultScreen');
+        });
+    } else if (id.attachEvent) {
+        // IE (IE9 supports the above)
+        id.attachEvent('onclick', showMe('resultScreen'));
+    } else {
+        // DOM0 - Very old or non standard browser
+        id.onclick = showMe('resultScreen');
+    };
 };
 
 pageInit();
@@ -142,7 +158,6 @@ function pageInit() {
         //     btnUseExistingValues.onclick = showMe('resultScreen');
         // };
 
-
         resultsBtnEventHandler(getEl('btnUseExistingValues'));
         resultsBtnEventHandler(getEl('btnUseDefaultValues'));
         resultsBtnEventHandler(getEl('btnShowResults'));
@@ -162,8 +177,8 @@ function pageInit() {
             btnCustomiseValues.onclick = showMe('customPage1');
         };
 
-        // Hook up the "Customise values" button
-        const btnSetDefaultValues = getEl('btnCustomiseValues');
+        // Hook up the "Set default Road and Junction Weightings" button
+        const btnSetDefaultValues = getEl('btnSetDefaultValues');
         if (btnSetDefaultValues.addEventListener) {
             // DOM2 - Modern browsers
             btnSetDefaultValues.addEventListener('click', function () {
@@ -318,7 +333,7 @@ function pageInit() {
             // DOM2 - Modern browsers
             s1Q1SliderOnInput.addEventListener('input', function () {
                 getEl('s1Q1Label').innerHTML = this.value;
-                customiseWeightings(true, true, 0, 0, 0, 1, this.value);
+                customiseWeightings(true, true, 0, 0, 0, 1, parseInt(this.value, 10));
             });
         };
 
@@ -374,7 +389,7 @@ function populateDefaultRoadProperties() {
         ['BC', 1, "3 Lanes"],
         ['BD', -1, "4 Lanes"],
         ['BE', -3, "5 Lanes"],
-        ['BF', -5, "6 Lanes"],
+        ['BF', -5, "6 Lanes"]
     ];
 
     const trafficFlow = [
@@ -454,10 +469,14 @@ function populateDefaultJunctionProperties() {
     const noOfLanes = [
         ['BA', 5, "1 Lane"],
         ['BB', 3, "2 Lanes"],
-        ['BC', 1, "3 Lanes"],
-        ['BD', -1, "4 Lanes"],
-        ['BE', -3, "5 Lanes"],
-        ['BF', -5, "6 Lanes"]
+        ['BC', 2, "3 Lanes"],
+        ['BD', 1, "4 Lanes"],
+        ['BE', -1, "5 Lanes"],
+        ['BF', -3, "6 Lanes"],
+        ['BG', -4, "7 Lanes"],
+        ['BH', -4, "8 Lanes"],
+        ['BI', -5, "9 Lanes"],
+        ['BJ', -5, "10 Lanes"]
     ];
 
     const trafficFlow = [
