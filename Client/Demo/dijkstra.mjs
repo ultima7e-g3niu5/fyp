@@ -224,47 +224,28 @@ export function dijkstra(finalWeightings) {
 
         function getIndexOfX(arr, x) {
             for (var i = 0; i < arr.length; i++) {
-                var index = arr[i].indexOf(x);
-                if (index > -1) {
+                var ind = arr[i].indexOf(x);
+                if (ind > -1) {
                     return i;
                 };
             };
         };
 
         for (var i = 0; i < (nodeRoadProperty.length); i++) {
-            // console.log(nodeRoadProperty[i]);
-
             const arr = dijkstraRoadProperties[i][0];
-            // console.log(arr);
-
             const arrayToSearch = getIndexOfX(arr, nodeRoadProperty[i]);
-
-            // console.log(arr[arrayToSearch][1]);
             totalRoadWeighting = totalRoadWeighting + (dijkstraRoadRelativeWeighting[i] * arr[arrayToSearch][1]);
-            // console.log(totalRoadWeighting);
         };
         if (nodeWeightingData[1] != "XXXXXXXXXXXXXXXXXXXX") {
             for (var j = 0; j < (nodeJunctionProperty.length); j++) {
-                // console.log(nodeJunctionProperty[j]);
-
                 const arr = dijkstraJunctionProperties[j][0];
-                // console.log(arr);
-
                 const arrayToSearch = getIndexOfX(arr, nodeJunctionProperty[j]);
-
-                // console.log(arr[arrayToSearch][1]);
                 totalJunctionWeighting = totalJunctionWeighting + (dijkstraJunctionRelativeWeighting[j] * arr[arrayToSearch][1]);
-                // console.log(totalJunctionWeighting);
             };
         };
-
-
-
         totalNodeWeighting = (totalRoadWeighting * nodeDistance) + (totalJunctionWeighting * junctionFactor);
-
-
-
-        const nodeWeighting = Math.random() * 100;
+        // const nodeWeighting = Math.random() * 100;
+        console.log(nodeId, totalNodeWeighting);
         return totalNodeWeighting;
     };
 
@@ -279,7 +260,7 @@ export function dijkstra(finalWeightings) {
         }, null);
     };
 
-    // function that returns the minimum cost and path to reach end
+    // function that returns the lowest cost and nodes from start to end
     const computeShortestPath = (graph) => {
 
         // track lowest cost to reach each node
@@ -287,7 +268,7 @@ export function dijkstra(finalWeightings) {
             end: Infinity
         }, graph.start);
 
-        // track paths
+        // remember paths
         const parentNodes = {
             end: null
         };
@@ -295,7 +276,7 @@ export function dijkstra(finalWeightings) {
             parentNodes[child] = 'start';
         }
 
-        // track nodes that have already been completedNodes
+        // remember nodes that have already been completed
         const completedNodes = [];
 
         let node = lowestNode(weightings, completedNodes);
@@ -333,51 +314,5 @@ export function dijkstra(finalWeightings) {
 
         return results;
     };
-
-    // function readCsv() {
-    //     let text;
-    //     const logFileText = async file => {
-    //         const response = await fetch(file);
-    //         text = await response.text();
-
-    //         // outputs the content of the text file
-    //         const decisionMapArray = convertCSVToArray(text);
-
-    //         if (localStorage.getItem("csvFile") == null) {
-    //             localStorage.setItem("decisionMap", decisionMapArray);
-    //             console.log(localStorage.getItem("decisionMap"));
-    //         };
-    //     };
-    //     logFileText('./decision-data.csv');
-    // };
-
-
-
-    // function convertCSVToArray(str, delim = ",") {
-    //     // Start from the start of the string, slice at end of line marker
-    //     // Use the delimeter set above to split the string
-    //     const headers = str.slice(0, str.indexOf("\n")).split(delim);
-
-    //     // Start at the index \n + 1 and slice at the end of the text
-    //     // Create an array of each csv row, using Split
-    //     const rows = str.slice(str.indexOf("\n") + 1).split("\n");
-
-    //     // Maping the rows
-    //     // Split the values from each row into an array
-    //     // Create an object using headers.reduce
-    //     // Derive the object properties from headers:values
-    //     // Construct the array using the object as an element of the whole array
-    //     const array = rows.map(function (row) {
-    //         const values = row.split(delim);
-    //         const element = headers.reduce(function (object, header, index) {
-    //             object[header] = values[index];
-    //             return object;
-    //         }, {});
-    //         return element;
-    //     });
-
-    //     // return the array
-    //     return array;
-    // };
     return computeShortestPath(decisionTree);
 };
