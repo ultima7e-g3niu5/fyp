@@ -189,6 +189,25 @@ function setEventHandlers() {
         btnCustomiseValues.onclick = showMe('customPage1');
     };
 
+    // Hook up the resultsScreen "Customise values" button
+    const btnCustomiseValues2 = getEl('btnCustomiseValues2');
+    if (btnCustomiseValues2.addEventListener) {
+        // DOM2 - Modern browsers
+        btnCustomiseValues2.addEventListener('click', function () {
+            showMe('customPage1');
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    } else if (btnCustomiseValues2.attachEvent) {
+        // IE (IE9 supports the above)
+        btnCustomiseValues2.attachEvent('onclick', showMe('customPage1'));
+    } else {
+        // DOM0 - Very old or non standard browser
+        btnCustomiseValues2.onclick = showMe('customPage1');
+    };
+
     // Hook up the "Set default Road and Junction Weightings" button
     const btnSetDefaultValues = getEl('btnSetDefaultValues');
     if (btnSetDefaultValues.addEventListener) {
@@ -299,6 +318,82 @@ function setEventHandlers() {
         btnShowInstructions.onclick = showMe('startScreen');
     };
 
+    // Hook up the s1 to s2 "Next Scenario" button
+    const btnNextS2 = getEl('btnNextS2');
+    if (btnNextS2.addEventListener) {
+        // DOM2 - Modern browsers
+        btnNextS2.addEventListener('click', function () {
+            showMe('customPage2');
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    } else if (btnNextS2.attachEvent) {
+        // IE (IE9 supports the above)
+        btnNextS2.attachEvent('onclick', showMe('customPage2'));
+    } else {
+        // DOM0 - Very old or non standard browser
+        btnNextS2.onclick = showMe('customPage2');
+    };
+
+    // Hook up the s2 to s3 "Next Scenario" button
+    const btnNextS3 = getEl('btnNextS3');
+    if (btnNextS3.addEventListener) {
+        // DOM2 - Modern browsers
+        btnNextS3.addEventListener('click', function () {
+            showMe('customPage3');
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    } else if (btnNextS3.attachEvent) {
+        // IE (IE9 supports the above)
+        btnNextS3.attachEvent('onclick', showMe('customPage3'));
+    } else {
+        // DOM0 - Very old or non standard browser
+        btnNextS3.onclick = showMe('customPage3');
+    };
+
+    // Hook up the s3 to s4 "Next Scenario" button
+    const btnNextS4 = getEl('btnNextS4');
+    if (btnNextS4.addEventListener) {
+        // DOM2 - Modern browsers
+        btnNextS4.addEventListener('click', function () {
+            showMe('customPage4');
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    } else if (btnNextS4.attachEvent) {
+        // IE (IE9 supports the above)
+        btnNextS4.attachEvent('onclick', showMe('customPage4'));
+    } else {
+        // DOM0 - Very old or non standard browser
+        btnNextS4.onclick = showMe('customPage4');
+    };
+
+    // Hook up the s4 to Results "Calculate Route" button
+    const btnNextResults = getEl('btnNextResults');
+    if (btnNextResults.addEventListener) {
+        // DOM2 - Modern browsers
+        btnNextResults.addEventListener('click', function () {
+            showMe('resultScreen');
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    } else if (btnNextResults.attachEvent) {
+        // IE (IE9 supports the above)
+        btnNextResults.attachEvent('onclick', showMe('resultScreen'));
+    } else {
+        // DOM0 - Very old or non standard browser
+        btnNextResults.onclick = showMe('resultScreen');
+    };
+
     resultsBtnEventHandler(getEl('btnUseExistingValues'));
     resultsBtnEventHandler(getEl('btnUseDefaultValues'));
     resultsBtnEventHandler(getEl('btnShowResults'));
@@ -329,9 +424,9 @@ function resultsBtnEventHandler(id) {
 
 function setupInteractiveEventHandlers() {
     // s1 - Road Bicycle Lanes
-    setupInputs('s1Q1Slider', 's1Q1Label', 's1Q1ResetBtn', 'road', 'single', 3, 0, 3, 1);
+    setupInputs('s1Q1Slider', 's1Q1Label', 's1Q1ResetBtn', 'road', 'single', 3, 0, 0, 1);
     setupInputs('s1Q2Slider', 's1Q2Label', 's1Q2ResetBtn', 'road', 'single', 3, 0, 1, 1);
-    setupInputs('s1Q3Slider', 's1Q3Label', 's1Q3ResetBtn', 'road', 'single', 3, 0, 0, 1);
+    setupInputs('s1Q3Slider', 's1Q3Label', 's1Q3ResetBtn', 'road', 'single', 3, 0, 3, 1);
     setupInputs('s1Q4Slider', 's1Q4Label', 's1Q4ResetBtn', 'road', 'single', 3, 0, 2, 1);
 
     // s2 - Junction Right of Way

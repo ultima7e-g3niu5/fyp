@@ -32,11 +32,13 @@
             <h1>Currently loaded weightings:</h1>
             <label id="labelDefaultExistingCustomise" value=""></label>
             <br>
+            <br>
             <input class="button" id="btnSetDefaultValues" class="button" type="button"
-                value="Set default Road and Junction Weightings and reload demo" />
+                value="Reset default Road and Junction Weightings" />
             <input class="button" id="btnUseDefaultValues" class="button" type="button" value="Use default Weightings" />
             <input class="button" id="btnUseExistingValues" class="button" type="button" value="Use Weightings saved from last session" />
             <input class="button" id="btnCustomiseValues" class="button" type="button" value="Customise Weightings" />
+            <img src="Resources/sample-area-annotated.jpg" alt="Annotated map of Portsmouth sample area">
         </section>
 
         <section id="votingInstructions" class="switchable">
@@ -57,7 +59,8 @@
         </datalist>
         <section id="customPage1" class="switchable">
             <h1>Scenario 1 - Road Bicycle Lanes</h1>
-            <p>Watch the 4 videos below, then indicate your desired weightings for each type of bicycle lane</p>
+            <p>Watch the 4 videos below, then indicate your desired weightings for each road the user is travelling along. Each road may feature a different style of bicycle lane</p>
+            <br>
             <h3>Key:</h3>
             <p>-5 ~~~ This feature has an extremely negative effect on how safe I feel</p>
             <p>0 ~~~ This feature has no effect on how safe I feel</p></pre>
@@ -67,7 +70,7 @@
                 <br>
                 <h2>Example 1</h2>
                 <br>
-                <iframe width="560" height="315" class="video4x4" src="https://www.youtube.com/embed/L0gcngqUD9s"
+                <iframe width="560" height="315" class="video4x4" src="https://www.youtube.com/embed/TCCRBW-CAxs"
                     title="YouTube video player" frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowfullscreen></iframe>
@@ -149,7 +152,7 @@
                 <br>
                 <h2>Example 3</h2>
                 <br>
-                <iframe width="560" height="315" class="video4x4" src="https://www.youtube.com/embed/TCCRBW-CAxs"
+                <iframe width="560" height="315" class="video4x4" src="https://www.youtube.com/embed/L0gcngqUD9s"
                     title="YouTube video player" frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowfullscreen></iframe>
@@ -227,11 +230,13 @@
                 </div>
                 <button id="s1Q4ResetBtn" class="button" type="button" value="Reset to default values">Reset to default value</button>
             </div>
+            <input id="btnNextS2" class="buttonNext" type="button" value="Next Scenario" />
         </section>
 
         <section id="customPage2" class="switchable">
             <h1>Scenario 2 - Junction Right of Way</h1>
-            <p>Watch the 2 videos below, then indicate your desired weightings for each type of road junction</p>
+            <p>Watch the 2 videos below, then indicate your desired weightings for each style of Right of Way, at a junction</p>
+            <br>
             <h3>Key:</h3>
             <p>-5 ~~~ This feature has an extremely negative effect on how safe I feel</p>
             <p>0 ~~~ This feature has no effect on how safe I feel</p>
@@ -319,20 +324,29 @@
                 </div>
                 <button id="s2Q2ResetBtn" class="button" type="button" value="Reset to default values">Reset to default value</button>
             </div>
+            <input id="btnNextS3" class="buttonNext" type="button" value="Next Scenario" />
         </section>
 
         <section id="customPage3" class="switchable">
             <h1>Scenario 3 - Road Features Relative Weighting</h1>
-            <p>Using the sliders below, indicate your desired weighting for each set of road features, relative to each
-                other</p>
+            <p>Using the sliders below, indicate your desired weighting for each set of road features, relative to each other</p>
+                <br>
             <h3>Key:</h3>
-            <p>0 ~~~ This set of features has the lowest impact on how safe I feel</p>
-            <p>5 ~~~ This set of features has the highest impact on how safe I feel</p>
+            <p>0 ~~~ This set of features has no effect on my decision to use a road</p>
+            <p>5 ~~~ This set of features either has a huge positive or huge negative effect on my decision to use a road</p>
+            <br>
+            <h3>Example Scenario</h3>
+            <p>Person A is no more comfortable on a road with speed limit 10mph, than a road with speed limit 70mph. </p>
+            <p>However, they are extremely uncomfortable travelling along a road with more than one lane of traffic.</p>
+            <p>Therefore, they should indicate '0' for 'Speed Limit', and '5' for 'Number of Lanes'</p>
+            <p>If they change their mind and gain a strong desire to travel along a road with more than one lane, they should still indicate '5' for 'Number of Lanes'</p>
 
             <div id="videoContainer">
                 <br>
                 <h2>Speed Limit</h2>
                 <br>
+                <p>On a road segment in this sample area, there can be 10mph, 20mph, or 30mph speed limits</p>
+                <p>How much effect does changing the speed limit have on your decision to use the road?</p>
                 <br>
                 <div class="sliderContainer">
                     <label id="s3Q1Label" class="sliderLabel" value="5"></label>
@@ -358,8 +372,10 @@
             </div>
             <div id="videoContainer">
                 <br>
-                <h2>Number of lanes</h2>
+                <h2>Number of Lanes</h2>
                 <br>
+                <p>On a road segment in this sample area, there can be 1, 2, or 3 lanes in the direction of travel</p>
+                <p>How much effect does changing the number of lanes have on your decision to use the road?</p>
                 <br>
                 <div class="sliderContainer">
                     <label id="s3Q2Label" class="sliderLabel" value="5"></label>
@@ -385,8 +401,10 @@
             </div>
             <div id="videoContainer">
                 <br>
-                <h2>Road Traffic Direction (One or Two way)</h2>
+                <h2>Road Traffic Direction</h2>
                 <br>
+                <p>On a road segment in this sample area, there can be one-way or two-way traffic</p>
+                <p>How much effect does changing the road traffic direction have on your decision to use the road?</p>
                 <br>
                 <div class="sliderContainer">
                     <label id="s3Q3Label" class="sliderLabel" value="5"></label>
@@ -412,8 +430,14 @@
             </div>
             <div id="videoContainer">
                 <br>
-                <h2>Bike Lane</h2>
+                <h2>Bicycle Lane</h2>
                 <br>
+                <p>On a road segment in this sample area, bicycle lanes can be:</p>
+                <p>Uninterrupted, clearly signed</p>
+                <p>Interrupted</p>
+                <p>Hard to follow</p>
+                <p>Not present</p>
+                <p>How much effect does changing the style of bicycle lane have on your decision to use the road?</p>
                 <br>
                 <div class="sliderContainer">
                     <label id="s3Q4Label" class="sliderLabel" value="5"></label>
@@ -441,6 +465,12 @@
                 <br>
                 <h2>Bus Lane</h2>
                 <br>
+                <p>On a road segment in this sample area, bus lanes can be:</p>
+                <p>Uninterrupted, clearly signed</p>
+                <p>Interrupted</p>
+                <p>Hard to follow</p>
+                <p>Not present</p>
+                <p>How much effect does changing the style of bus lane have on your decision to use the road?</p>
                 <br>
                 <div class="sliderContainer">
                     <label id="s3Q5Label" class="sliderLabel" value="5"></label>
@@ -468,6 +498,14 @@
                 <br>
                 <h2>Traffic Calming Measures</h2>
                 <br>
+                <p>On a road segment in this sample area, traffic calming measures can be:</p>
+                <p>Traffic Lights</p>
+                <p>Biccyle Priority Traffic Lights</p>
+                <p>Speed Bumps</p>
+                <p>Width Restriction Islands</p>
+                <p>Narrowing Islands</p>
+                <p>Speed Cameras</p>
+                <p>How much effect does changing the style of traffic calming measure have on your decision to use the road?</p>
                 <br>
                 <div class="sliderContainer">
                     <label id="s3Q6Label" class="sliderLabel" value="5"></label>
@@ -495,6 +533,8 @@
                 <br>
                 <h2>Number of Adjacent Roads Crossed</h2>
                 <br>
+                <p>On a road segment in this sample area, you might cross 1, 2, 3, 4, 5 or 6 adjacent roads</p>
+                <p>How much effect does changing the number of adjacent roads crossed have on your decision to use the road?</p>
                 <br>
                 <div class="sliderContainer">
                     <label id="s3Q7Label" class="sliderLabel" value="5"></label>
@@ -520,8 +560,10 @@
             </div>
             <div id="videoContainer">
                 <br>
-                <h2>Rate of Traffic Flow</h2>
+                <h2>Amount of Traffic Flow</h2>
                 <br>
+                <p>On a road segment in this sample area, the amount of traffic might be low, medium or high</p>
+                <p>How much effect does changing the amount of traffic have on your decision to use the road?</p>
                 <br>
                 <div class="sliderContainer">
                     <label id="s3Q8Label" class="sliderLabel" value="5"></label>
@@ -545,20 +587,34 @@
                 </div>
                 <button id="s3Q8ResetBtn" class="button" type="button" value="Reset to default values">Reset to default value</button>
             </div>
+            <input id="btnNextS4" class="buttonNext" type="button" value="Next Scenario" />
         </section>
 
         <section id="customPage4" class="switchable">
             <h1>Scenario 4 - Junction Features Relative Weighting</h1>
-            <p>Using the sliders below, indicate your desired weighting for each set of junction features, relative to
-                each other</p>
+            <p>Using the sliders below, indicate your desired weighting for each set of junction features, relative to each other</p>
+                <br>
             <h3>Key:</h3>
-            <p>0 ~~~ This set of features has the lowest impact on how safe I feel</p>
-            <p>5 ~~~ This set of features has the highest impact on how safe I feel</p>
+            <p>0 ~~~ This set of features has no effect on my decision to use a junction</p>
+            <p>5 ~~~ This set of features either has a huge positive or huge negative effect on my decision to use a junction</p>
+            <br>
+            <h3>Example Scenario</h3>
+            <p>Person B is no more comfortable on any junction type, whether mini roundabout or crossroads. </p>
+            <p>However, they are extremely uncomfortable travelling through a junction which they do not have right of way.</p>
+            <p>Therefore, they should indicate '0' for 'Junction Type', and '5' for 'Right of Way'</p>
+            <p>If they change their mind and gain a strong desire to travel through junctions with no right of way, they should still indicate '5' for 'Right of Way'</p>
 
             <div id="videoContainer">
                 <br>
                 <h2>Type of Junction</h2>
                 <br>
+                <p>On a junction in this sample area, junctions can be of type:</p>
+                <p>Mini roundabout</p>
+                <p>Roundabout</p>
+                <p>T Junction</p>
+                <p>Crossroads</p>
+                <p>Slip Road</p>
+                <p>How much effect does changing the junction type have on your decision to use the junction?</p>
                 <br>
                 <div class="sliderContainer">
                     <label id="s4Q1Label" class="sliderLabel" value="5"></label>
@@ -586,6 +642,8 @@
                 <br>
                 <h2>Number of lanes</h2>
                 <br>
+                <p>On a junction in this sample area, there 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 lanes adjacent to a junction</p>
+                <p>How much effect does changing the number of lanes adjacent to a junction have on your decision to use the junction?</p>
                 <br>
                 <div class="sliderContainer">
                     <label id="s4Q2Label" class="sliderLabel" value="5"></label>
@@ -611,8 +669,10 @@
             </div>
             <div id="videoContainer">
                 <br>
-                <h2>Road Traffic Direction (One or Two way)</h2>
+                <h2>Junction Traffic Direction</h2>
                 <br>
+                <p>On a junction in this sample area, there can be one-way or two-way traffic</p>
+                <p>How much effect does changing the traffic direction have on your decision to use the junction?</p>
                 <br>
                 <div class="sliderContainer">
                     <label id="s4Q3Label" class="sliderLabel" value="5"></label>
@@ -640,6 +700,8 @@
                 <br>
                 <h2>Turning Direction</h2>
                 <br>
+                <p>On a junction in this sample area, there can be right, left or no (straight on) turning directions</p>
+                <p>How much effect does changing the turning direction have on your decision to use the junction?</p>
                 <br>
                 <div class="sliderContainer">
                     <label id="s4Q4Label" class="sliderLabel" value="5"></label>
@@ -667,6 +729,8 @@
                 <br>
                 <h2>Right of Way</h2>
                 <br>
+                <p>On a junction in this sample area, you might have right of way, or not</p>
+                <p>How much effect does changing the right of way have on your decision to use the junction?</p>
                 <br>
                 <div class="sliderContainer">
                     <label id="s4Q5Label" class="sliderLabel" value="5"></label>
@@ -694,6 +758,12 @@
                 <br>
                 <h2>Bicycle Lane</h2>
                 <br>
+                <p>On a junction in this sample area, bicycle lanes can be:</p>
+                <p>Uninterrupted, clearly signed</p>
+                <p>Interrupted</p>
+                <p>Hard to follow</p>
+                <p>Not present</p>
+                <p>How much effect does changing the style of bicycle lane have on your decision to use the junction?</p>
                 <br>
                 <div class="sliderContainer">
                     <label id="s4Q6Label" class="sliderLabel" value="5"></label>
@@ -721,6 +791,12 @@
                 <br>
                 <h2>Bus Lane</h2>
                 <br>
+                <p>On a junction in this sample area, bus lanes can be:</p>
+                <p>Uninterrupted, clearly signed</p>
+                <p>Interrupted</p>
+                <p>Hard to follow</p>
+                <p>Not present</p>
+                <p>How much effect does changing the style of bus lane have on your decision to use the junction?</p>
                 <br>
                 <div class="sliderContainer">
                     <label id="s4Q7Label" class="sliderLabel" value="5"></label>
@@ -748,6 +824,8 @@
                 <br>
                 <h2>Traffic Lights</h2>
                 <br>
+                <p>On a junction in this sample area, there can be traffic lights with bicycle priority, regular traffic lights or none at all</p>
+                <p>How much effect does changing the syle of traffic light have on your decision to use the junction?</p>
                 <br>
                 <div class="sliderContainer">
                     <label id="s4Q8Label" class="sliderLabel" value="5"></label>
@@ -773,8 +851,10 @@
             </div>
             <div id="videoContainer">
                 <br>
-                <h2>Traffic Lights</h2>
+                <h2>Directions of Traffic</h2>
                 <br>
+                <p>On a junction in this sample area, there can 1, 2, 3, 4 or 5 directions which traffic meets a junction at</p>
+                <p>How much effect does changing the number of directions of traffic have on your decision to use the junction?</p>
                 <br>
                 <div class="sliderContainer">
                     <label id="s4Q9Label" class="sliderLabel" value="5"></label>
@@ -800,8 +880,10 @@
             </div>
             <div id="videoContainer">
                 <br>
-                <h2>Traffic Lights</h2>
+                <h2>Amount of Traffic</h2>
                 <br>
+                <p>On a junction segment in this sample area, the amount of traffic might be low, medium or high</p>
+                <p>How much effect does changing the amount of traffic have on your decision to use the junction?</p>
                 <br>
                 <div class="sliderContainer">
                     <label id="s4Q10Label" class="sliderLabel" value="5"></label>
@@ -825,6 +907,7 @@
                 </div>
                 <button id="s4Q10ResetBtn" class="button" type="button" value="Reset to default values">Reset to default value</button>
             </div>
+            <input id="btnNextResults" class="buttonNext" type="button" value="Calculate Route" />
         </section>
 
         <section id="bottomNavigation" class="switchable">
@@ -845,6 +928,7 @@
             <br>
             <label id="resultScreenNodesLabel"></label>
             <br>
+            <input class="button" id="btnCustomiseValues2" class="button" type="button" value="Customise Weightings" />
             <button class="button" onClick="window.location.reload()">Restart Demo</button>
             <br>
             <br>

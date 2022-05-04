@@ -47,15 +47,34 @@ iframe {
   max-height: max-width;
 }
 
-#resultScreen img {
+#resultScreen img, #startScreen img {
   width: 100%;
+  margin-top: 2vh;
 }
-
-
 
 .sliderLabel {
   background-color: whitesmoke;
   border-radius: 0.75vw;
   padding-right: 1.25rem;
   padding-left: 1.25rem;
+}
+
+.buttonNext {
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
+  margin: 0.5vw;
+  color: rgb(241, 237, 237);
+  background-color: rgb(59, 141, 18);
+  font-size: 16px;
+  position: relative;
+  border-radius: 0.75vw;
+  border: solid;
+  border-color: transparent;
+}
+
+.buttonNext:hover {
+  color: #2e9000;
+  background-color: rgb(241, 237, 237);
+  border: solid;
+  border-color: rgb(59, 141, 18);
 }
