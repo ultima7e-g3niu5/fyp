@@ -38,7 +38,7 @@ function showMe(elem) {
     if (elem == 'resultScreen') {
         displayResultScreenValues();
     };
-    
+
     for (const element of elements) {
         element.style.display = 'none';
     }
@@ -81,13 +81,14 @@ function displayResultScreenValues() {
 
     const dijkstraReturn = dijkstra(forDijkstra);
 
-    const resultScreenWeightingLabel = getEl('resultScreenWeightingLabel');
-    const text = "The total weighting for your journey is: ";
-    resultScreenWeightingLabel.textContent = text.concat(Math.floor(dijkstraReturn.distance));
+    // const resultScreenWeightingLabel = getEl('resultScreenWeightingLabel');
+    // const text = "The total weighting for your journey is: ";
+    // resultScreenWeightingLabel.textContent = text.concat(Math.floor(dijkstraReturn.distance));
 
     const resultScreenNodesLabel = getEl('resultScreenNodesLabel');
-    const text2 = "The nodes you will travel through are: ";
-    resultScreenNodesLabel.textContent = text2.concat(dijkstraReturn.path);
+    resultScreenResultsLabel.textContent = "The nodes you will travel through are: ";
+    const text = "<pre>";
+    resultScreenNodesLabel.innerHTML = text.concat(dijkstraReturn.path.join("   >   ").replace("start", "0").replace("end", "60"));
 };
 
 function defaultOrCustom() {
@@ -127,7 +128,7 @@ function setStartScreenButtons() {
         localStorage.defaultJunctionProperties = JSON.stringify(defaultJunctionProperties);
         localStorage.defaultJunctionRelativeWeighting = JSON.stringify(defaultJunctionRelativeWeighting);
 
-        getEl("labelDefaultExistingCustomise").textContent = "Default weightings for roads and junctions have been loaded";
+        getEl("labelDefaultExistingCustomise").textContent = "Default";
         getEl("btnUseDefaultValues").style.display = "inline-block";
         getEl("btnUseExistingValues").style.display = "none";
         getEl("btnSetDefaultValues").style.display = "none";
@@ -137,12 +138,12 @@ function setStartScreenButtons() {
             ls.customJunctionRelativeWeighting != defaultJunctionRelativeWeighting) &&
         !(defaultRoadPropertiesBool && defaultJunctionPropertiesBool &&
             defaultRoadRelativeWeightingBool && defaultJunctionRelativeWeightingBool)) {
-        getEl("labelDefaultExistingCustomise").textContent = "Previously customised weightings for roads and junctions have been loaded";
+        getEl("labelDefaultExistingCustomise").textContent = "Customised";
         getEl("btnSetDefaultValues").style.display = "inline-block";
         getEl("btnUseDefaultValues").style.display = "none";
         getEl("btnUseExistingValues").style.display = "inline-block";
     } else {
-        getEl("labelDefaultExistingCustomise").textContent = "Default weightings for roads and junctions were previously loaded but not customised";
+        getEl("labelDefaultExistingCustomise").textContent = "Default";
         getEl("btnSetDefaultValues").style.display = "none";
         getEl("btnUseDefaultValues").style.display = "inline-block";
         getEl("btnUseExistingValues").style.display = "none";
@@ -153,14 +154,17 @@ function setDefaultValues() {
     defaultOrCustom();
     if (!defaultRoadPropertiesBool) {
         localStorage.removeItem('customRoadProperties');
-    } else if (!defaultRoadRelativeWeightingBool) {
+    };
+    if (!defaultRoadRelativeWeightingBool) {
         localStorage.removeItem('customRoadRelativeWeighting');
-    } else if (!defaultJunctionPropertiesBool) {
+    };
+    if (!defaultJunctionPropertiesBool) {
         localStorage.removeItem('customJunctionProperties');
-    } else if (!defaultJunctionRelativeWeightingBool) {
+    };
+    if (!defaultJunctionRelativeWeightingBool) {
         localStorage.removeItem('customJunctionRelativeWeighting');
     };
-    window.location.href = window.location.href;
+    window.location.reload();
 };
 
 function setEventHandlers() {
@@ -171,7 +175,11 @@ function setEventHandlers() {
     if (btnCustomiseValues.addEventListener) {
         // DOM2 - Modern browsers
         btnCustomiseValues.addEventListener('click', function () {
-            showMe('customPage1')
+            showMe('customPage1');
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
         });
     } else if (btnCustomiseValues.attachEvent) {
         // IE (IE9 supports the above)
@@ -201,7 +209,11 @@ function setEventHandlers() {
     if (btnShowS1.addEventListener) {
         // DOM2 - Modern browsers
         btnShowS1.addEventListener('click', function () {
-            showMe('customPage1')
+            showMe('customPage1');
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
         });
     } else if (btnShowS1.attachEvent) {
         // IE (IE9 supports the above)
@@ -216,7 +228,11 @@ function setEventHandlers() {
     if (btnShowS2.addEventListener) {
         // DOM2 - Modern browsers
         btnShowS2.addEventListener('click', function () {
-            showMe('customPage2')
+            showMe('customPage2');
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
         });
     } else if (btnShowS2.attachEvent) {
         // IE (IE9 supports the above)
@@ -231,7 +247,11 @@ function setEventHandlers() {
     if (btnShowS3.addEventListener) {
         // DOM2 - Modern browsers
         btnShowS3.addEventListener('click', function () {
-            showMe('customPage3')
+            showMe('customPage3');
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
         });
     } else if (btnShowS3.attachEvent) {
         // IE (IE9 supports the above)
@@ -246,7 +266,11 @@ function setEventHandlers() {
     if (btnShowS4.addEventListener) {
         // DOM2 - Modern browsers
         btnShowS4.addEventListener('click', function () {
-            showMe('customPage4')
+            showMe('customPage4');
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
         });
     } else if (btnShowS4.attachEvent) {
         // IE (IE9 supports the above)
@@ -261,14 +285,18 @@ function setEventHandlers() {
     if (btnShowInstructions.addEventListener) {
         // DOM2 - Modern browsers
         btnShowInstructions.addEventListener('click', function () {
-            showMe('votingInstructions')
+            showMe('startScreen');
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
         });
     } else if (btnShowInstructions.attachEvent) {
         // IE (IE9 supports the above)
-        btnShowInstructions.attachEvent('onclick', showMe('votingInstructions'));
+        btnShowInstructions.attachEvent('onclick', showMe('startScreen'));
     } else {
         // DOM0 - Very old or non standard browser
-        btnShowInstructions.onclick = showMe('votingInstructions');
+        btnShowInstructions.onclick = showMe('startScreen');
     };
 
     resultsBtnEventHandler(getEl('btnUseExistingValues'));
@@ -281,10 +309,18 @@ function resultsBtnEventHandler(id) {
         // DOM2 - Modern browsers
         id.addEventListener('click', function () {
             showMe('resultScreen');
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
         });
     } else if (id.attachEvent) {
         // IE (IE9 supports the above)
         id.attachEvent('onclick', showMe('resultScreen'));
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
     } else {
         // DOM0 - Very old or non standard browser
         id.onclick = showMe('resultScreen');
@@ -460,7 +496,7 @@ function resetSliderToDefaultValue(labelID, sliderID, roadOrJunction, singleOrRe
             value = JSON.parse(ls.defaultJunctionProperties)[one][two][three][four];
         };
     } else {
-        if (roadOrJunction = 'road') {
+        if (roadOrJunction == 'road') {
             value = JSON.parse(ls.defaultRoadRelativeWeighting)[one];
         } else {
             value = JSON.parse(ls.defaultJunctionRelativeWeighting)[one];

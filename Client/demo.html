@@ -8,6 +8,8 @@
     <title>Demo</title>
     <link rel="icon" href="favicon1.png" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="Demo/artifact.css">
+
 </head>
 
 <body class="active">
@@ -17,11 +19,839 @@
                 <i class="fas fa-bars"></i>
             </a>
         </div>
-        <section>
-            <h1 class="page-heading">Demo</h1>
+        <section id="startScreen" class="switchable">
+            <h1>Bicycle Navigation System</h1>
+            <br>
+            <p>Welcome! This system will navigate you from the green point '0' to the red point '60' on the map below. The route will follow the direction indicated by the blue arrows, and travel through a node at each decision point. The system allows you to customise your preferences towards road and junction features, asking you to rate how these features effect how safe you feel. You are also able to customise your preferences between feature categories, allowing you to assign higher and lower weightings to categories of road/junction features which have more impact on how comfortable you feel</p>
+            <br>
+            <p>By customising these weightings to your preferences, the route produced by the algorithm will closer represent the route you are most comfortable with</p>
+            <br>
+            <p>Use the buttons below to calculate the route using default weightings, or to customise these weightings. If you have previously made customisations to the route weightings, you will have the option to calculate the route using these saved values. All your preferences are saved in your browser, allowing you to pick up where you left off at a previous session</p>
+            <br>
+            <br>
+            <h1>Currently loaded weightings:</h1>
+            <label id="labelDefaultExistingCustomise" value=""></label>
+            <br>
+            <input class="button" id="btnSetDefaultValues" class="button" type="button"
+                value="Set default Road and Junction Weightings and reload demo" />
+            <input class="button" id="btnUseDefaultValues" class="button" type="button" value="Use default Weightings" />
+            <input class="button" id="btnUseExistingValues" class="button" type="button" value="Use Weightings saved from last session" />
+            <input class="button" id="btnCustomiseValues" class="button" type="button" value="Customise Weightings" />
         </section>
-        <section>
 
+        <section id="votingInstructions" class="switchable">
+            <!-- sadasddaads -->
+
+        </section>
+        <datalist id="tickmarks">
+            <option value="0"></option>
+            <option value="1"></option>
+            <option value="2"></option>
+            <option value="3"></option>
+            <option value="4"></option>
+            <option value="5"></option>
+            <option value="6"></option>
+            <option value="7"></option>
+            <option value="8"></option>
+            <option value="9"></option>
+        </datalist>
+        <section id="customPage1" class="switchable">
+            <h1>Scenario 1 - Road Bicycle Lanes</h1>
+            <p>Watch the 4 videos below, then indicate your desired weightings for each type of bicycle lane</p>
+            <h3>Key:</h3>
+            <p>-5 ~~~ This feature has an extremely negative effect on how safe I feel</p>
+            <p>0 ~~~ This feature has no effect on how safe I feel</p></pre>
+            <p>5 ~~~ This feature has an extremely positive effect on how safe I feel</p>
+
+            <div id="videoContainer">
+                <br>
+                <h2>Example 1</h2>
+                <br>
+                <iframe width="560" height="315" class="video4x4" src="https://www.youtube.com/embed/L0gcngqUD9s"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+                <br>
+                <div class="sliderContainer">
+                    <label id="s1Q1Label" class="sliderLabel" value="5"></label>
+                    <input type="range" id="s1Q1Slider" class="inputSlider" min="-5" max="5" step="1" list="steplist" />
+                    <svg role="presentation" width="100%" height="10">
+                        <rect class="range__tick" x="0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="10.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="20.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="30.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="40.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="50.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="60.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="70.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="80.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="89.5%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="99%" y="0" width="1" height="5"></rect>
+                    </svg>
+                    <svg role="presentation" width="100%" height="14">
+                        <text class="range__point" x="0%" y="14" text-anchor="start">-5</text>
+                        <text class="range__point" x="10.0%" y="14" text-anchor="middle">-4</text>
+                        <text class="range__point" x="20.0%" y="14" text-anchor="middle">-3</text>
+                        <text class="range__point" x="30.0%" y="14" text-anchor="middle">-2</text>
+                        <text class="range__point" x="40.0%" y="14" text-anchor="middle">-1</text>
+                        <text class="range__point" x="50.0%" y="14" text-anchor="middle">0</text>
+                        <text class="range__point" x="60.0%" y="14" text-anchor="middle">1</text>
+                        <text class="range__point" x="70.0%" y="14" text-anchor="middle">2</text>
+                        <text class="range__point" x="80.0%" y="14" text-anchor="middle">3</text>
+                        <text class="range__point" x="89.5%" y="14" text-anchor="middle">4</text>
+                        <text class="range__point" x="99%" y="14" text-anchor="middle">5</text>
+                    </svg>
+                </div>
+                <button id="s1Q1ResetBtn" class="button" type="button" value="Reset to default values">Reset to default value</button>
+            </div>
+            <div id="videoContainer">
+                <br>
+                <h2>Example 2</h2>
+                <br>
+                <iframe width="560" height="315" class="video4x4" src="https://www.youtube.com/embed/Pj0AKqcGZhE"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+                <br>
+                <div class="sliderContainer">
+                    <label id="s1Q2Label" class="sliderLabel" value="5"></label>
+                    <input type="range" id="s1Q2Slider" class="inputSlider" min="-5" max="5" step="1" list="steplist" />
+                    <svg role="presentation" width="100%" height="10">
+                        <rect class="range__tick" x="0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="10.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="20.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="30.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="40.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="50.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="60.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="70.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="80.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="89.5%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="99%" y="0" width="1" height="5"></rect>
+                    </svg>
+                    <svg role="presentation" width="100%" height="14">
+                        <text class="range__point" x="0%" y="14" text-anchor="start">-5</text>
+                        <text class="range__point" x="10.0%" y="14" text-anchor="middle">-4</text>
+                        <text class="range__point" x="20.0%" y="14" text-anchor="middle">-3</text>
+                        <text class="range__point" x="30.0%" y="14" text-anchor="middle">-2</text>
+                        <text class="range__point" x="40.0%" y="14" text-anchor="middle">-1</text>
+                        <text class="range__point" x="50.0%" y="14" text-anchor="middle">0</text>
+                        <text class="range__point" x="60.0%" y="14" text-anchor="middle">1</text>
+                        <text class="range__point" x="70.0%" y="14" text-anchor="middle">2</text>
+                        <text class="range__point" x="80.0%" y="14" text-anchor="middle">3</text>
+                        <text class="range__point" x="89.5%" y="14" text-anchor="middle">4</text>
+                        <text class="range__point" x="99%" y="14" text-anchor="middle">5</text>
+                    </svg>
+                </div>
+                <button id="s1Q2ResetBtn" class="button" type="button" value="Reset to default values">Reset to default value</button>
+            </div>
+            <div id="videoContainer">
+                <br>
+                <h2>Example 3</h2>
+                <br>
+                <iframe width="560" height="315" class="video4x4" src="https://www.youtube.com/embed/TCCRBW-CAxs"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+                <br>
+                <div class="sliderContainer">
+                    <label id="s1Q3Label" class="sliderLabel" value="5"></label>
+                    <input type="range" id="s1Q3Slider" class="inputSlider" min="-5" max="5" step="1" list="steplist" />
+                    <svg role="presentation" width="100%" height="10">
+                        <rect class="range__tick" x="0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="10.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="20.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="30.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="40.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="50.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="60.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="70.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="80.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="89.5%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="99%" y="0" width="1" height="5"></rect>
+                    </svg>
+                    <svg role="presentation" width="100%" height="14">
+                        <text class="range__point" x="0%" y="14" text-anchor="start">-5</text>
+                        <text class="range__point" x="10.0%" y="14" text-anchor="middle">-4</text>
+                        <text class="range__point" x="20.0%" y="14" text-anchor="middle">-3</text>
+                        <text class="range__point" x="30.0%" y="14" text-anchor="middle">-2</text>
+                        <text class="range__point" x="40.0%" y="14" text-anchor="middle">-1</text>
+                        <text class="range__point" x="50.0%" y="14" text-anchor="middle">0</text>
+                        <text class="range__point" x="60.0%" y="14" text-anchor="middle">1</text>
+                        <text class="range__point" x="70.0%" y="14" text-anchor="middle">2</text>
+                        <text class="range__point" x="80.0%" y="14" text-anchor="middle">3</text>
+                        <text class="range__point" x="89.5%" y="14" text-anchor="middle">4</text>
+                        <text class="range__point" x="99%" y="14" text-anchor="middle">5</text>
+                    </svg>
+                </div>
+                <button id="s1Q3ResetBtn" class="button" type="button" value="Reset to default values">Reset to default value</button>
+            </div>
+            <div id="videoContainer">
+                <br>
+                <h2>Example 4</h2>
+                <br>
+                <iframe width="560" height="315" class="video4x4" src="https://www.youtube.com/embed/F1Txvr2k0RY"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+                <br>
+                <div class="sliderContainer">
+                    <label id="s1Q4Label" class="sliderLabel" value="5"></label>
+                    <input type="range" id="s1Q4Slider" class="inputSlider" min="-5" max="5" step="1" list="steplist" />
+                    <svg role="presentation" width="100%" height="10">
+                        <rect class="range__tick" x="0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="10.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="20.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="30.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="40.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="50.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="60.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="70.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="80.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="89.5%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="99%" y="0" width="1" height="5"></rect>
+                    </svg>
+                    <svg role="presentation" width="100%" height="14">
+                        <text class="range__point" x="0%" y="14" text-anchor="start">-5</text>
+                        <text class="range__point" x="10.0%" y="14" text-anchor="middle">-4</text>
+                        <text class="range__point" x="20.0%" y="14" text-anchor="middle">-3</text>
+                        <text class="range__point" x="30.0%" y="14" text-anchor="middle">-2</text>
+                        <text class="range__point" x="40.0%" y="14" text-anchor="middle">-1</text>
+                        <text class="range__point" x="50.0%" y="14" text-anchor="middle">0</text>
+                        <text class="range__point" x="60.0%" y="14" text-anchor="middle">1</text>
+                        <text class="range__point" x="70.0%" y="14" text-anchor="middle">2</text>
+                        <text class="range__point" x="80.0%" y="14" text-anchor="middle">3</text>
+                        <text class="range__point" x="89.5%" y="14" text-anchor="middle">4</text>
+                        <text class="range__point" x="99%" y="14" text-anchor="middle">5</text>
+                    </svg>
+                </div>
+                <button id="s1Q4ResetBtn" class="button" type="button" value="Reset to default values">Reset to default value</button>
+            </div>
+        </section>
+
+        <section id="customPage2" class="switchable">
+            <h1>Scenario 2 - Junction Right of Way</h1>
+            <p>Watch the 2 videos below, then indicate your desired weightings for each type of road junction</p>
+            <h3>Key:</h3>
+            <p>-5 ~~~ This feature has an extremely negative effect on how safe I feel</p>
+            <p>0 ~~~ This feature has no effect on how safe I feel</p>
+            <p>5 ~~~ This feature has an extremely positive effect on how safe I feel</p>
+
+            <div id="videoContainer">
+                <br>
+                <h2>Example 1</h2>
+                <br>
+                <iframe width="560" height="315" class="video4x4" src="https://www.youtube.com/embed/9lE2tyv7LFQ"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+                <br>
+                <div class="sliderContainer">
+                    <label id="s2Q1Label" class="sliderLabel" value="5"></label>
+                    <input type="range" id="s2Q1Slider" class="inputSlider" min="-5" max="5" step="1" list="steplist" />
+                    <svg role="presentation" width="100%" height="10">
+                        <rect class="range__tick" x="0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="10.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="20.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="30.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="40.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="50.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="60.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="70.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="80.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="89.5%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="99%" y="0" width="1" height="5"></rect>
+                    </svg>
+                    <svg role="presentation" width="100%" height="14">
+                        <text class="range__point" x="0%" y="14" text-anchor="start">-5</text>
+                        <text class="range__point" x="10.0%" y="14" text-anchor="middle">-4</text>
+                        <text class="range__point" x="20.0%" y="14" text-anchor="middle">-3</text>
+                        <text class="range__point" x="30.0%" y="14" text-anchor="middle">-2</text>
+                        <text class="range__point" x="40.0%" y="14" text-anchor="middle">-1</text>
+                        <text class="range__point" x="50.0%" y="14" text-anchor="middle">0</text>
+                        <text class="range__point" x="60.0%" y="14" text-anchor="middle">1</text>
+                        <text class="range__point" x="70.0%" y="14" text-anchor="middle">2</text>
+                        <text class="range__point" x="80.0%" y="14" text-anchor="middle">3</text>
+                        <text class="range__point" x="89.5%" y="14" text-anchor="middle">4</text>
+                        <text class="range__point" x="99%" y="14" text-anchor="middle">5</text>
+                    </svg>
+                </div>
+                <button id="s2Q1ResetBtn" class="button" type="button" value="Reset to default values">Reset to default value</button>
+            </div>
+            <div id="videoContainer">
+                <br>
+                <h2>Example 2</h2>
+                <br>
+                <iframe width="560" height="315" class="video4x4" src="https://www.youtube.com/embed/Ub6hFJQLA50"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+                <br>
+                <div class="sliderContainer">
+                    <label id="s2Q2Label" class="sliderLabel" value="5"></label>
+                    <input type="range" id="s2Q2Slider" class="inputSlider" min="-5" max="5" step="1" list="steplist" />
+                    <svg role="presentation" width="100%" height="10">
+                        <rect class="range__tick" x="0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="10.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="20.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="30.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="40.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="50.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="60.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="70.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="80.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="89.5%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="99%" y="0" width="1" height="5"></rect>
+                    </svg>
+                    <svg role="presentation" width="100%" height="14">
+                        <text class="range__point" x="0%" y="14" text-anchor="start">-5</text>
+                        <text class="range__point" x="10.0%" y="14" text-anchor="middle">-4</text>
+                        <text class="range__point" x="20.0%" y="14" text-anchor="middle">-3</text>
+                        <text class="range__point" x="30.0%" y="14" text-anchor="middle">-2</text>
+                        <text class="range__point" x="40.0%" y="14" text-anchor="middle">-1</text>
+                        <text class="range__point" x="50.0%" y="14" text-anchor="middle">0</text>
+                        <text class="range__point" x="60.0%" y="14" text-anchor="middle">1</text>
+                        <text class="range__point" x="70.0%" y="14" text-anchor="middle">2</text>
+                        <text class="range__point" x="80.0%" y="14" text-anchor="middle">3</text>
+                        <text class="range__point" x="89.5%" y="14" text-anchor="middle">4</text>
+                        <text class="range__point" x="99%" y="14" text-anchor="middle">5</text>
+                    </svg>
+                </div>
+                <button id="s2Q2ResetBtn" class="button" type="button" value="Reset to default values">Reset to default value</button>
+            </div>
+        </section>
+
+        <section id="customPage3" class="switchable">
+            <h1>Scenario 3 - Road Features Relative Weighting</h1>
+            <p>Using the sliders below, indicate your desired weighting for each set of road features, relative to each
+                other</p>
+            <h3>Key:</h3>
+            <p>0 ~~~ This set of features has the lowest impact on how safe I feel</p>
+            <p>5 ~~~ This set of features has the highest impact on how safe I feel</p>
+
+            <div id="videoContainer">
+                <br>
+                <h2>Speed Limit</h2>
+                <br>
+                <br>
+                <div class="sliderContainer">
+                    <label id="s3Q1Label" class="sliderLabel" value="5"></label>
+                    <input type="range" id="s3Q1Slider" class="inputSlider" min="0" max="5" step="1" list="steplist" />
+                    <svg role="presentation" width="100%" height="10">
+                        <rect class="range__tick" x="0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="20.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="40.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="60.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="79.5%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="99%" y="0" width="1" height="5"></rect>
+                    </svg>
+                    <svg role="presentation" width="100%" height="14">
+                        <text class="range__point" x="0%" y="14" text-anchor="start">0</text>
+                        <text class="range__point" x="20.0%" y="14" text-anchor="middle">1</text>
+                        <text class="range__point" x="40.0%" y="14" text-anchor="middle">2</text>
+                        <text class="range__point" x="60.0%" y="14" text-anchor="middle">3</text>
+                        <text class="range__point" x="79.5%" y="14" text-anchor="middle">4</text>
+                        <text class="range__point" x="99%" y="14" text-anchor="middle">5</text>
+                    </svg>
+                </div>
+                <button id="s3Q1ResetBtn" class="button" type="button" value="Reset to default values">Reset to default value</button>
+            </div>
+            <div id="videoContainer">
+                <br>
+                <h2>Number of lanes</h2>
+                <br>
+                <br>
+                <div class="sliderContainer">
+                    <label id="s3Q2Label" class="sliderLabel" value="5"></label>
+                    <input type="range" id="s3Q2Slider" class="inputSlider" min="0" max="5" step="1" list="steplist" />
+                    <svg role="presentation" width="100%" height="10">
+                        <rect class="range__tick" x="0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="20.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="40.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="60.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="79.5%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="99%" y="0" width="1" height="5"></rect>
+                    </svg>
+                    <svg role="presentation" width="100%" height="14">
+                        <text class="range__point" x="0%" y="14" text-anchor="start">0</text>
+                        <text class="range__point" x="20.0%" y="14" text-anchor="middle">1</text>
+                        <text class="range__point" x="40.0%" y="14" text-anchor="middle">2</text>
+                        <text class="range__point" x="60.0%" y="14" text-anchor="middle">3</text>
+                        <text class="range__point" x="79.5%" y="14" text-anchor="middle">4</text>
+                        <text class="range__point" x="99%" y="14" text-anchor="middle">5</text>
+                    </svg>
+                </div>
+                <button id="s3Q2ResetBtn" class="button" type="button" value="Reset to default values">Reset to default value</button>
+            </div>
+            <div id="videoContainer">
+                <br>
+                <h2>Road Traffic Direction (One or Two way)</h2>
+                <br>
+                <br>
+                <div class="sliderContainer">
+                    <label id="s3Q3Label" class="sliderLabel" value="5"></label>
+                    <input type="range" id="s3Q3Slider" class="inputSlider" min="0" max="5" step="1" list="steplist" />
+                    <svg role="presentation" width="100%" height="10">
+                        <rect class="range__tick" x="0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="20.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="40.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="60.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="79.5%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="99%" y="0" width="1" height="5"></rect>
+                    </svg>
+                    <svg role="presentation" width="100%" height="14">
+                        <text class="range__point" x="0%" y="14" text-anchor="start">0</text>
+                        <text class="range__point" x="20.0%" y="14" text-anchor="middle">1</text>
+                        <text class="range__point" x="40.0%" y="14" text-anchor="middle">2</text>
+                        <text class="range__point" x="60.0%" y="14" text-anchor="middle">3</text>
+                        <text class="range__point" x="79.5%" y="14" text-anchor="middle">4</text>
+                        <text class="range__point" x="99%" y="14" text-anchor="middle">5</text>
+                    </svg>
+                </div>
+                <button id="s3Q3ResetBtn" class="button" type="button" value="Reset to default values">Reset to default value</button>
+            </div>
+            <div id="videoContainer">
+                <br>
+                <h2>Bike Lane</h2>
+                <br>
+                <br>
+                <div class="sliderContainer">
+                    <label id="s3Q4Label" class="sliderLabel" value="5"></label>
+                    <input type="range" id="s3Q4Slider" class="inputSlider" min="0" max="5" step="1" list="steplist" />
+                    <svg role="presentation" width="100%" height="10">
+                        <rect class="range__tick" x="0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="20.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="40.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="60.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="79.5%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="99%" y="0" width="1" height="5"></rect>
+                    </svg>
+                    <svg role="presentation" width="100%" height="14">
+                        <text class="range__point" x="0%" y="14" text-anchor="start">0</text>
+                        <text class="range__point" x="20.0%" y="14" text-anchor="middle">1</text>
+                        <text class="range__point" x="40.0%" y="14" text-anchor="middle">2</text>
+                        <text class="range__point" x="60.0%" y="14" text-anchor="middle">3</text>
+                        <text class="range__point" x="79.5%" y="14" text-anchor="middle">4</text>
+                        <text class="range__point" x="99%" y="14" text-anchor="middle">5</text>
+                    </svg>
+                </div>
+                <button id="s3Q4ResetBtn" class="button" type="button" value="Reset to default values">Reset to default value</button>
+            </div>
+            <div id="videoContainer">
+                <br>
+                <h2>Bus Lane</h2>
+                <br>
+                <br>
+                <div class="sliderContainer">
+                    <label id="s3Q5Label" class="sliderLabel" value="5"></label>
+                    <input type="range" id="s3Q5Slider" class="inputSlider" min="0" max="5" step="1" list="steplist" />
+                    <svg role="presentation" width="100%" height="10">
+                        <rect class="range__tick" x="0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="20.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="40.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="60.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="79.5%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="99%" y="0" width="1" height="5"></rect>
+                    </svg>
+                    <svg role="presentation" width="100%" height="14">
+                        <text class="range__point" x="0%" y="14" text-anchor="start">0</text>
+                        <text class="range__point" x="20.0%" y="14" text-anchor="middle">1</text>
+                        <text class="range__point" x="40.0%" y="14" text-anchor="middle">2</text>
+                        <text class="range__point" x="60.0%" y="14" text-anchor="middle">3</text>
+                        <text class="range__point" x="79.5%" y="14" text-anchor="middle">4</text>
+                        <text class="range__point" x="99%" y="14" text-anchor="middle">5</text>
+                    </svg>
+                </div>
+                <button id="s3Q5ResetBtn" class="button" type="button" value="Reset to default values">Reset to default value</button>
+            </div>
+            <div id="videoContainer">
+                <br>
+                <h2>Traffic Calming Measures</h2>
+                <br>
+                <br>
+                <div class="sliderContainer">
+                    <label id="s3Q6Label" class="sliderLabel" value="5"></label>
+                    <input type="range" id="s3Q6Slider" class="inputSlider" min="0" max="5" step="1" list="steplist" />
+                    <svg role="presentation" width="100%" height="10">
+                        <rect class="range__tick" x="0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="20.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="40.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="60.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="79.5%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="99%" y="0" width="1" height="5"></rect>
+                    </svg>
+                    <svg role="presentation" width="100%" height="14">
+                        <text class="range__point" x="0%" y="14" text-anchor="start">0</text>
+                        <text class="range__point" x="20.0%" y="14" text-anchor="middle">1</text>
+                        <text class="range__point" x="40.0%" y="14" text-anchor="middle">2</text>
+                        <text class="range__point" x="60.0%" y="14" text-anchor="middle">3</text>
+                        <text class="range__point" x="79.5%" y="14" text-anchor="middle">4</text>
+                        <text class="range__point" x="99%" y="14" text-anchor="middle">5</text>
+                    </svg>
+                </div>
+                <button id="s3Q6ResetBtn" class="button" type="button" value="Reset to default values">Reset to default value</button>
+            </div>
+            <div id="videoContainer">
+                <br>
+                <h2>Number of Adjacent Roads Crossed</h2>
+                <br>
+                <br>
+                <div class="sliderContainer">
+                    <label id="s3Q7Label" class="sliderLabel" value="5"></label>
+                    <input type="range" id="s3Q7Slider" class="inputSlider" min="0" max="5" step="1" list="steplist" />
+                    <svg role="presentation" width="100%" height="10">
+                        <rect class="range__tick" x="0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="20.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="40.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="60.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="79.5%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="99%" y="0" width="1" height="5"></rect>
+                    </svg>
+                    <svg role="presentation" width="100%" height="14">
+                        <text class="range__point" x="0%" y="14" text-anchor="start">0</text>
+                        <text class="range__point" x="20.0%" y="14" text-anchor="middle">1</text>
+                        <text class="range__point" x="40.0%" y="14" text-anchor="middle">2</text>
+                        <text class="range__point" x="60.0%" y="14" text-anchor="middle">3</text>
+                        <text class="range__point" x="79.5%" y="14" text-anchor="middle">4</text>
+                        <text class="range__point" x="99%" y="14" text-anchor="middle">5</text>
+                    </svg>
+                </div>
+                <button id="s3Q7ResetBtn" class="button" type="button" value="Reset to default values">Reset to default value</button>
+            </div>
+            <div id="videoContainer">
+                <br>
+                <h2>Rate of Traffic Flow</h2>
+                <br>
+                <br>
+                <div class="sliderContainer">
+                    <label id="s3Q8Label" class="sliderLabel" value="5"></label>
+                    <input type="range" id="s3Q8Slider" class="inputSlider" min="0" max="5" step="1" list="steplist" />
+                    <svg role="presentation" width="100%" height="10">
+                        <rect class="range__tick" x="0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="20.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="40.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="60.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="79.5%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="99%" y="0" width="1" height="5"></rect>
+                    </svg>
+                    <svg role="presentation" width="100%" height="14">
+                        <text class="range__point" x="0%" y="14" text-anchor="start">0</text>
+                        <text class="range__point" x="20.0%" y="14" text-anchor="middle">1</text>
+                        <text class="range__point" x="40.0%" y="14" text-anchor="middle">2</text>
+                        <text class="range__point" x="60.0%" y="14" text-anchor="middle">3</text>
+                        <text class="range__point" x="79.5%" y="14" text-anchor="middle">4</text>
+                        <text class="range__point" x="99%" y="14" text-anchor="middle">5</text>
+                    </svg>
+                </div>
+                <button id="s3Q8ResetBtn" class="button" type="button" value="Reset to default values">Reset to default value</button>
+            </div>
+        </section>
+
+        <section id="customPage4" class="switchable">
+            <h1>Scenario 4 - Junction Features Relative Weighting</h1>
+            <p>Using the sliders below, indicate your desired weighting for each set of junction features, relative to
+                each other</p>
+            <h3>Key:</h3>
+            <p>0 ~~~ This set of features has the lowest impact on how safe I feel</p>
+            <p>5 ~~~ This set of features has the highest impact on how safe I feel</p>
+
+            <div id="videoContainer">
+                <br>
+                <h2>Type of Junction</h2>
+                <br>
+                <br>
+                <div class="sliderContainer">
+                    <label id="s4Q1Label" class="sliderLabel" value="5"></label>
+                    <input type="range" id="s4Q1Slider" class="inputSlider" min="0" max="5" step="1" list="steplist" />
+                    <svg role="presentation" width="100%" height="10">
+                        <rect class="range__tick" x="0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="20.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="40.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="60.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="79.5%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="99%" y="0" width="1" height="5"></rect>
+                    </svg>
+                    <svg role="presentation" width="100%" height="14">
+                        <text class="range__point" x="0%" y="14" text-anchor="start">0</text>
+                        <text class="range__point" x="20.0%" y="14" text-anchor="middle">1</text>
+                        <text class="range__point" x="40.0%" y="14" text-anchor="middle">2</text>
+                        <text class="range__point" x="60.0%" y="14" text-anchor="middle">3</text>
+                        <text class="range__point" x="79.5%" y="14" text-anchor="middle">4</text>
+                        <text class="range__point" x="99%" y="14" text-anchor="middle">5</text>
+                    </svg>
+                </div>
+                <button id="s4Q1ResetBtn" class="button" type="button" value="Reset to default values">Reset to default value</button>
+            </div>
+            <div id="videoContainer">
+                <br>
+                <h2>Number of lanes</h2>
+                <br>
+                <br>
+                <div class="sliderContainer">
+                    <label id="s4Q2Label" class="sliderLabel" value="5"></label>
+                    <input type="range" id="s4Q2Slider" class="inputSlider" min="0" max="5" step="1" list="steplist" />
+                    <svg role="presentation" width="100%" height="10">
+                        <rect class="range__tick" x="0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="20.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="40.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="60.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="79.5%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="99%" y="0" width="1" height="5"></rect>
+                    </svg>
+                    <svg role="presentation" width="100%" height="14">
+                        <text class="range__point" x="0%" y="14" text-anchor="start">0</text>
+                        <text class="range__point" x="20.0%" y="14" text-anchor="middle">1</text>
+                        <text class="range__point" x="40.0%" y="14" text-anchor="middle">2</text>
+                        <text class="range__point" x="60.0%" y="14" text-anchor="middle">3</text>
+                        <text class="range__point" x="79.5%" y="14" text-anchor="middle">4</text>
+                        <text class="range__point" x="99%" y="14" text-anchor="middle">5</text>
+                    </svg>
+                </div>
+                <button id="s4Q2ResetBtn" class="button" type="button" value="Reset to default values">Reset to default value</button>
+            </div>
+            <div id="videoContainer">
+                <br>
+                <h2>Road Traffic Direction (One or Two way)</h2>
+                <br>
+                <br>
+                <div class="sliderContainer">
+                    <label id="s4Q3Label" class="sliderLabel" value="5"></label>
+                    <input type="range" id="s4Q3Slider" class="inputSlider" min="0" max="5" step="1" list="steplist" />
+                    <svg role="presentation" width="100%" height="10">
+                        <rect class="range__tick" x="0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="20.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="40.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="60.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="79.5%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="99%" y="0" width="1" height="5"></rect>
+                    </svg>
+                    <svg role="presentation" width="100%" height="14">
+                        <text class="range__point" x="0%" y="14" text-anchor="start">0</text>
+                        <text class="range__point" x="20.0%" y="14" text-anchor="middle">1</text>
+                        <text class="range__point" x="40.0%" y="14" text-anchor="middle">2</text>
+                        <text class="range__point" x="60.0%" y="14" text-anchor="middle">3</text>
+                        <text class="range__point" x="79.5%" y="14" text-anchor="middle">4</text>
+                        <text class="range__point" x="99%" y="14" text-anchor="middle">5</text>
+                    </svg>
+                </div>
+                <button id="s4Q3ResetBtn" class="button" type="button" value="Reset to default values">Reset to default value</button>
+            </div>
+            <div id="videoContainer">
+                <br>
+                <h2>Turning Direction</h2>
+                <br>
+                <br>
+                <div class="sliderContainer">
+                    <label id="s4Q4Label" class="sliderLabel" value="5"></label>
+                    <input type="range" id="s4Q4Slider" class="inputSlider" min="0" max="5" step="1" list="steplist" />
+                    <svg role="presentation" width="100%" height="10">
+                        <rect class="range__tick" x="0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="20.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="40.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="60.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="79.5%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="99%" y="0" width="1" height="5"></rect>
+                    </svg>
+                    <svg role="presentation" width="100%" height="14">
+                        <text class="range__point" x="0%" y="14" text-anchor="start">0</text>
+                        <text class="range__point" x="20.0%" y="14" text-anchor="middle">1</text>
+                        <text class="range__point" x="40.0%" y="14" text-anchor="middle">2</text>
+                        <text class="range__point" x="60.0%" y="14" text-anchor="middle">3</text>
+                        <text class="range__point" x="79.5%" y="14" text-anchor="middle">4</text>
+                        <text class="range__point" x="99%" y="14" text-anchor="middle">5</text>
+                    </svg>
+                </div>
+                <button id="s4Q4ResetBtn" class="button" type="button" value="Reset to default values">Reset to default value</button>
+            </div>
+            <div id="videoContainer">
+                <br>
+                <h2>Right of Way</h2>
+                <br>
+                <br>
+                <div class="sliderContainer">
+                    <label id="s4Q5Label" class="sliderLabel" value="5"></label>
+                    <input type="range" id="s4Q5Slider" class="inputSlider" min="0" max="5" step="1" list="steplist" />
+                    <svg role="presentation" width="100%" height="10">
+                        <rect class="range__tick" x="0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="20.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="40.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="60.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="79.5%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="99%" y="0" width="1" height="5"></rect>
+                    </svg>
+                    <svg role="presentation" width="100%" height="14">
+                        <text class="range__point" x="0%" y="14" text-anchor="start">0</text>
+                        <text class="range__point" x="20.0%" y="14" text-anchor="middle">1</text>
+                        <text class="range__point" x="40.0%" y="14" text-anchor="middle">2</text>
+                        <text class="range__point" x="60.0%" y="14" text-anchor="middle">3</text>
+                        <text class="range__point" x="79.5%" y="14" text-anchor="middle">4</text>
+                        <text class="range__point" x="99%" y="14" text-anchor="middle">5</text>
+                    </svg>
+                </div>
+                <button id="s4Q5ResetBtn" class="button" type="button" value="Reset to default values">Reset to default value</button>
+            </div>
+            <div id="videoContainer">
+                <br>
+                <h2>Bicycle Lane</h2>
+                <br>
+                <br>
+                <div class="sliderContainer">
+                    <label id="s4Q6Label" class="sliderLabel" value="5"></label>
+                    <input type="range" id="s4Q6Slider" class="inputSlider" min="0" max="5" step="1" list="steplist" />
+                    <svg role="presentation" width="100%" height="10">
+                        <rect class="range__tick" x="0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="20.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="40.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="60.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="79.5%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="99%" y="0" width="1" height="5"></rect>
+                    </svg>
+                    <svg role="presentation" width="100%" height="14">
+                        <text class="range__point" x="0%" y="14" text-anchor="start">0</text>
+                        <text class="range__point" x="20.0%" y="14" text-anchor="middle">1</text>
+                        <text class="range__point" x="40.0%" y="14" text-anchor="middle">2</text>
+                        <text class="range__point" x="60.0%" y="14" text-anchor="middle">3</text>
+                        <text class="range__point" x="79.5%" y="14" text-anchor="middle">4</text>
+                        <text class="range__point" x="99%" y="14" text-anchor="middle">5</text>
+                    </svg>
+                </div>
+                <button id="s4Q6ResetBtn" class="button" type="button" value="Reset to default values">Reset to default value</button>
+            </div>
+            <div id="videoContainer">
+                <br>
+                <h2>Bus Lane</h2>
+                <br>
+                <br>
+                <div class="sliderContainer">
+                    <label id="s4Q7Label" class="sliderLabel" value="5"></label>
+                    <input type="range" id="s4Q7Slider" class="inputSlider" min="0" max="5" step="1" list="steplist" />
+                    <svg role="presentation" width="100%" height="10">
+                        <rect class="range__tick" x="0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="20.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="40.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="60.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="79.5%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="99%" y="0" width="1" height="5"></rect>
+                    </svg>
+                    <svg role="presentation" width="100%" height="14">
+                        <text class="range__point" x="0%" y="14" text-anchor="start">0</text>
+                        <text class="range__point" x="20.0%" y="14" text-anchor="middle">1</text>
+                        <text class="range__point" x="40.0%" y="14" text-anchor="middle">2</text>
+                        <text class="range__point" x="60.0%" y="14" text-anchor="middle">3</text>
+                        <text class="range__point" x="79.5%" y="14" text-anchor="middle">4</text>
+                        <text class="range__point" x="99%" y="14" text-anchor="middle">5</text>
+                    </svg>
+                </div>
+                <button id="s4Q7ResetBtn" class="button" type="button" value="Reset to default values">Reset to default value</button>
+            </div>
+            <div id="videoContainer">
+                <br>
+                <h2>Traffic Lights</h2>
+                <br>
+                <br>
+                <div class="sliderContainer">
+                    <label id="s4Q8Label" class="sliderLabel" value="5"></label>
+                    <input type="range" id="s4Q8Slider" class="inputSlider" min="0" max="5" step="1" list="steplist" />
+                    <svg role="presentation" width="100%" height="10">
+                        <rect class="range__tick" x="0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="20.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="40.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="60.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="79.5%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="99%" y="0" width="1" height="5"></rect>
+                    </svg>
+                    <svg role="presentation" width="100%" height="14">
+                        <text class="range__point" x="0%" y="14" text-anchor="start">0</text>
+                        <text class="range__point" x="20.0%" y="14" text-anchor="middle">1</text>
+                        <text class="range__point" x="40.0%" y="14" text-anchor="middle">2</text>
+                        <text class="range__point" x="60.0%" y="14" text-anchor="middle">3</text>
+                        <text class="range__point" x="79.5%" y="14" text-anchor="middle">4</text>
+                        <text class="range__point" x="99%" y="14" text-anchor="middle">5</text>
+                    </svg>
+                </div>
+                <button id="s4Q8ResetBtn" class="button" type="button" value="Reset to default values">Reset to default value</button>
+            </div>
+            <div id="videoContainer">
+                <br>
+                <h2>Traffic Lights</h2>
+                <br>
+                <br>
+                <div class="sliderContainer">
+                    <label id="s4Q9Label" class="sliderLabel" value="5"></label>
+                    <input type="range" id="s4Q9Slider" class="inputSlider" min="0" max="5" step="1" list="steplist" />
+                    <svg role="presentation" width="100%" height="10">
+                        <rect class="range__tick" x="0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="20.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="40.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="60.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="79.5%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="99%" y="0" width="1" height="5"></rect>
+                    </svg>
+                    <svg role="presentation" width="100%" height="14">
+                        <text class="range__point" x="0%" y="14" text-anchor="start">0</text>
+                        <text class="range__point" x="20.0%" y="14" text-anchor="middle">1</text>
+                        <text class="range__point" x="40.0%" y="14" text-anchor="middle">2</text>
+                        <text class="range__point" x="60.0%" y="14" text-anchor="middle">3</text>
+                        <text class="range__point" x="79.5%" y="14" text-anchor="middle">4</text>
+                        <text class="range__point" x="99%" y="14" text-anchor="middle">5</text>
+                    </svg>
+                </div>
+                <button id="s4Q9ResetBtn" class="button" type="button" value="Reset to default values">Reset to default value</button>
+            </div>
+            <div id="videoContainer">
+                <br>
+                <h2>Traffic Lights</h2>
+                <br>
+                <br>
+                <div class="sliderContainer">
+                    <label id="s4Q10Label" class="sliderLabel" value="5"></label>
+                    <input type="range" id="s4Q10Slider" class="inputSlider" min="0" max="5" step="1" list="steplist" />
+                    <svg role="presentation" width="100%" height="10">
+                        <rect class="range__tick" x="0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="20.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="40.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="60.0%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="79.5%" y="0" width="1" height="5"></rect>
+                        <rect class="range__tick" x="99%" y="0" width="1" height="5"></rect>
+                    </svg>
+                    <svg role="presentation" width="100%" height="14">
+                        <text class="range__point" x="0%" y="14" text-anchor="start">0</text>
+                        <text class="range__point" x="20.0%" y="14" text-anchor="middle">1</text>
+                        <text class="range__point" x="40.0%" y="14" text-anchor="middle">2</text>
+                        <text class="range__point" x="60.0%" y="14" text-anchor="middle">3</text>
+                        <text class="range__point" x="79.5%" y="14" text-anchor="middle">4</text>
+                        <text class="range__point" x="99%" y="14" text-anchor="middle">5</text>
+                    </svg>
+                </div>
+                <button id="s4Q10ResetBtn" class="button" type="button" value="Reset to default values">Reset to default value</button>
+            </div>
+        </section>
+
+        <section id="bottomNavigation" class="switchable">
+            <input id="btnShowInstructions" class="button" type="button" value="Show Instructions" />
+            <input id="btnShowS1" class="button" type="button" value="Scenario 1 - Road Bicycle Lanes" />
+            <input id="btnShowS2" class="button" type="button" value="Scenario 2 - Junction Right of Way" />
+            <input id="btnShowS3" class="button" type="button" value="Scenario 3 - Road Features Relative Weighting" />
+            <input id="btnShowS4" class="button" type="button" value="Scenario 4 - Junction Features Relative Weighting" />
+            <br>
+            <input id="btnShowResults" class="button" type="button" value="Calculate route with current values" />
+            <button class="button" onClick="window.location.reload()">Restart Demo</button>
+        </section>
+
+        <section id="resultScreen" class="switchable">
+            <h1>Your route has been customised</h1>
+            <br>
+            <label id="resultScreenResultsLabel"></label>
+            <br>
+            <label id="resultScreenNodesLabel"></label>
+            <br>
+            <button class="button" onClick="window.location.reload()">Restart Demo</button>
+            <br>
+            <br>
+            <h1>See how your journey is represented on the map below</h1>
+            <br>
+            <img src="Resources/sample-area-annotated.jpg" alt="Annotated map of Portsmouth sample area">
+            </div>
         </section>
 
     </main>
@@ -31,7 +861,9 @@
         <section>
             <img src="uop-logo.png" alt="profile_picture">
             <h3>UP898813</h3>
-            <h4>Computer Science Final Year Project Artifact</h4>
+            <br>
+            <h3>Computer Science Final Year Project Artifact</h3>
+            <br>
         </section>
         <ul>
             <li>
@@ -55,6 +887,7 @@
         </ul>
     </nav>
     <script src="hamburger.js"></script>
+    <script type="module" src="Demo/artifact.mjs"></script>
 </body>
 
 </html>
