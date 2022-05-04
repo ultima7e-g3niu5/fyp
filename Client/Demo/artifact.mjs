@@ -44,7 +44,7 @@ function showMe(elem) {
     }
     getEl(elem).style.display = 'block';
 
-    if (elem == "customPage1" || elem == "customPage2" || elem == "customPage3") {
+    if (elem == "customPage1" || elem == "customPage2" || elem == "customPage3" || elem == "customPage4" || elem == "votingInstructions") {
         getEl('bottomNavigation').style.display = 'block';
     };
 };
@@ -121,14 +121,13 @@ function setStartScreenButtons() {
     defaultOrCustom();
     if (defaultRoadPropertiesBool && ls.defaultRoadProperties == null) {
         populateDefaultRoadProperties();
-        console.log(defaultRoadProperties);
         localStorage.defaultRoadProperties = JSON.stringify(defaultRoadProperties);
         localStorage.defaultRoadRelativeWeighting = JSON.stringify(defaultRoadRelativeWeighting);
         populateDefaultJunctionProperties();
         localStorage.defaultJunctionProperties = JSON.stringify(defaultJunctionProperties);
         localStorage.defaultJunctionRelativeWeighting = JSON.stringify(defaultJunctionRelativeWeighting);
 
-        getEl("labelDefaultExistingCustomise").innerHTML = "Default weightings for roads and junctions have been loaded";
+        getEl("labelDefaultExistingCustomise").textContent = "Default weightings for roads and junctions have been loaded";
         getEl("btnUseDefaultValues").style.display = "inline-block";
         getEl("btnUseExistingValues").style.display = "none";
         getEl("btnSetDefaultValues").style.display = "none";
@@ -138,12 +137,12 @@ function setStartScreenButtons() {
             ls.customJunctionRelativeWeighting != defaultJunctionRelativeWeighting) &&
         !(defaultRoadPropertiesBool && defaultJunctionPropertiesBool &&
             defaultRoadRelativeWeightingBool && defaultJunctionRelativeWeightingBool)) {
-        getEl("labelDefaultExistingCustomise").innerHTML = "Previously customised weightings for roads and junctions have been loaded";
+        getEl("labelDefaultExistingCustomise").textContent = "Previously customised weightings for roads and junctions have been loaded";
         getEl("btnSetDefaultValues").style.display = "inline-block";
         getEl("btnUseDefaultValues").style.display = "none";
         getEl("btnUseExistingValues").style.display = "inline-block";
     } else {
-        getEl("labelDefaultExistingCustomise").innerHTML = "Default weightings for roads and junctions were previously loaded but not customised";
+        getEl("labelDefaultExistingCustomise").textContent = "Default weightings for roads and junctions were previously loaded but not customised";
         getEl("btnSetDefaultValues").style.display = "none";
         getEl("btnUseDefaultValues").style.display = "inline-block";
         getEl("btnUseExistingValues").style.display = "none";
@@ -257,79 +256,19 @@ function setEventHandlers() {
         btnShowS4.onclick = showMe('customPage4');
     };
 
-    // Hook up the "Scenario 5" button
-    const btnShowS5 = getEl('btnShowS5');
-    if (btnShowS5.addEventListener) {
+    // Hook up the "Instructions" button
+    const btnShowInstructions = getEl('btnShowInstructions');
+    if (btnShowInstructions.addEventListener) {
         // DOM2 - Modern browsers
-        btnShowS5.addEventListener('click', function () {
-            showMe('customPage5')
+        btnShowInstructions.addEventListener('click', function () {
+            showMe('votingInstructions')
         });
-    } else if (btnShowS5.attachEvent) {
+    } else if (btnShowInstructions.attachEvent) {
         // IE (IE9 supports the above)
-        btnShowS5.attachEvent('onclick', showMe('customPage5'));
+        btnShowInstructions.attachEvent('onclick', showMe('votingInstructions'));
     } else {
         // DOM0 - Very old or non standard browser
-        btnShowS5.onclick = showMe('customPage5');
-    };
-
-    // Hook up the "Scenario 6" button
-    const btnShowS6 = getEl('btnShowS6');
-    if (btnShowS6.addEventListener) {
-        // DOM2 - Modern browsers
-        btnShowS6.addEventListener('click', function () {
-            showMe('customPage6')
-        });
-    } else if (btnShowS6.attachEvent) {
-        // IE (IE9 supports the above)
-        btnShowS6.attachEvent('onclick', showMe('customPage6'));
-    } else {
-        // DOM0 - Very old or non standard browser
-        btnShowS6.onclick = showMe('customPage6');
-    };
-
-    // Hook up the "Scenario 7" button
-    const btnShowS7 = getEl('btnShowS7');
-    if (btnShowS7.addEventListener) {
-        // DOM2 - Modern browsers
-        btnShowS7.addEventListener('click', function () {
-            showMe('customPage7')
-        });
-    } else if (btnShowS7.attachEvent) {
-        // IE (IE9 supports the above)
-        btnShowS7.attachEvent('onclick', showMe('customPage7'));
-    } else {
-        // DOM0 - Very old or non standard browser
-        btnShowS7.onclick = showMe('customPage7');
-    };
-
-    // Hook up the "Scenario 8" button
-    const btnShowS8 = getEl('btnShowS8');
-    if (btnShowS8.addEventListener) {
-        // DOM2 - Modern browsers
-        btnShowS8.addEventListener('click', function () {
-            showMe('customPage8')
-        });
-    } else if (btnShowS8.attachEvent) {
-        // IE (IE9 supports the above)
-        btnShowS8.attachEvent('onclick', showMe('customPage8'));
-    } else {
-        // DOM0 - Very old or non standard browser
-        btnShowS8.onclick = showMe('customPage8');
-    };
-
-    // Hook up the "Scenario 9" button
-    const btnShowS9 = getEl('btnShowS9');
-    if (btnShowS9.addEventListener) {
-        // DOM2 - Modern browsers
-        btnShowS9.addEventListener('click', function () {
-            showMe('customPage9')
-        });
-    } else if (btnShowS9.attachEvent) {
-        // IE (IE9 supports the above)
-        btnShowS9.attachEvent('onclick', showMe('customPage9'));
-    } else {
-        // DOM0 - Very old or non standard browser
-        btnShowS9.onclick = showMe('customPage9');
+        btnShowInstructions.onclick = showMe('votingInstructions');
     };
 
     resultsBtnEventHandler(getEl('btnUseExistingValues'));
@@ -372,6 +311,18 @@ function setupInteractiveEventHandlers() {
     setupInputs('s3Q6Slider', 's3Q6Label', 's3Q6ResetBtn', 'road', 'relative', 5);
     setupInputs('s3Q7Slider', 's3Q7Label', 's3Q7ResetBtn', 'road', 'relative', 6);
     setupInputs('s3Q8Slider', 's3Q8Label', 's3Q8ResetBtn', 'road', 'relative', 7);
+
+    // s4 - Junction Relative Weighting
+    setupInputs('s4Q1Slider', 's4Q1Label', 's4Q1ResetBtn', 'junction', 'relative', 0);
+    setupInputs('s4Q2Slider', 's4Q2Label', 's4Q2ResetBtn', 'junction', 'relative', 1);
+    setupInputs('s4Q3Slider', 's4Q3Label', 's4Q3ResetBtn', 'junction', 'relative', 2);
+    setupInputs('s4Q4Slider', 's4Q4Label', 's4Q4ResetBtn', 'junction', 'relative', 3);
+    setupInputs('s4Q5Slider', 's4Q5Label', 's4Q5ResetBtn', 'junction', 'relative', 4);
+    setupInputs('s4Q6Slider', 's4Q6Label', 's4Q6ResetBtn', 'junction', 'relative', 5);
+    setupInputs('s4Q7Slider', 's4Q7Label', 's4Q7ResetBtn', 'junction', 'relative', 6);
+    setupInputs('s4Q8Slider', 's4Q8Label', 's4Q8ResetBtn', 'junction', 'relative', 7);
+    setupInputs('s4Q9Slider', 's4Q9Label', 's4Q9ResetBtn', 'junction', 'relative', 8);
+    setupInputs('s4Q10Slider', 's4Q10Label', 's4Q10ResetBtn', 'junction', 'relative', 9);
 };
 
 function setupInputs(sliderID, labelId, resetBtn, roadOrJunction, singleOrRelative, one, two, three, four) {
@@ -379,7 +330,7 @@ function setupInputs(sliderID, labelId, resetBtn, roadOrJunction, singleOrRelati
     if (sliderEl.addEventListener) {
         // DOM2 - Modern browsers
         sliderEl.addEventListener('input', function () {
-            getEl(labelId).innerHTML = this.value;
+            getEl(labelId).textContent = this.value;
             customiseWeightings(roadOrJunction, singleOrRelative, one, two, three, four, parseInt(this.value, 10));
         });
     };
@@ -420,7 +371,7 @@ function setupInputs(sliderID, labelId, resetBtn, roadOrJunction, singleOrRelati
             };
         };
     } else {
-        if (roadOrJunction = 'road') {
+        if (roadOrJunction == 'road') {
             defaultOrCustom();
             if (defaultRoadRelativeWeightingBool) {
                 ls = JSON.parse(ls.defaultRoadRelativeWeighting)[one];
@@ -443,9 +394,9 @@ function setupInputs(sliderID, labelId, resetBtn, roadOrJunction, singleOrRelati
 };
 
 function customiseWeightings(roadOrJunction, singleOrRelative, one, two, three, four, newValue) {
+    defaultOrCustom();
     if (singleOrRelative == 'single') {
         if (roadOrJunction == 'road') {
-            defaultOrCustom();
             let customisingRoadProperties;
             if (defaultRoadPropertiesBool) {
                 customisingRoadProperties = JSON.parse(localStorage.defaultRoadProperties);
@@ -471,7 +422,7 @@ function customiseWeightings(roadOrJunction, singleOrRelative, one, two, three, 
         };
     } else {
         if (roadOrJunction == 'road') {
-            defaultOrCustom();
+            console.log(1)
             let customisingRoadRelativeWeighting;
             if (defaultRoadRelativeWeightingBool) {
                 customisingRoadRelativeWeighting = JSON.parse(localStorage.defaultRoadRelativeWeighting);
@@ -484,6 +435,7 @@ function customiseWeightings(roadOrJunction, singleOrRelative, one, two, three, 
             localStorage.customRoadRelativeWeighting = JSON.stringify(customisingRoadRelativeWeighting);
 
         } else {
+            console.log(2)
             let customisingJunctionRelativeWeighting;
             if (defaultJunctionRelativeWeightingBool) {
                 customisingJunctionRelativeWeighting = JSON.parse(localStorage.defaultJunctionRelativeWeighting);
@@ -515,10 +467,10 @@ function resetSliderToDefaultValue(labelID, sliderID, roadOrJunction, singleOrRe
         };
     };
 
-    getEl(labelID).innerHTML = value;
+    getEl(labelID).textContent = value;
     getEl(sliderID).value = value;
 
-    customiseWeightings(roadOrJunction, singleOrRelative, one, two, three, four, getEl(sliderID).value);
+    customiseWeightings(roadOrJunction, singleOrRelative, one, two, three, four, parseInt(getEl(sliderID).value), 10);
 };
 
 function populateDefaultRoadProperties() {
@@ -694,7 +646,7 @@ function populateDefaultJunctionProperties() {
         [rateOfTraffic]
     ];
 
-    defaultJunctionRelativeWeighting = [2, 3, 4, 4, 1, 2, 3, 4, 5, 3, 5];
+    defaultJunctionRelativeWeighting = [2, 3, 4, 1, 2, 3, 4, 5, 3, 5];
 
     return defaultJunctionProperties, defaultJunctionRelativeWeighting;
 };
